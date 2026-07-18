@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Tighra Smart Boat System</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; justify-content: space-between;">
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span class="brand-icon">⚓</span> Tighra<span class="highlight">Boats</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="/login" class="nav-link"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
+      <li><a href="/operator" class="nav-link"><i class="fa-solid fa-qrcode"></i> Gate Scanner</a></li>
+      <li><a href="/admin" class="nav-link"><i class="fa-solid fa-chart-line"></i> Admin Console</a></li>
+    </ul>
+  </nav>
+
+  <main style="max-width: 480px; width: 90%; margin: 3rem auto; flex-grow: 1;">
+    <div class="card" style="border: 1px solid var(--primary); padding: 2.5rem;">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="font-size: 3rem; color: var(--primary); margin-bottom: 0.75rem;"><i class="fa-solid fa-user-plus"></i></div>
+        <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.25rem;">Create Tourist Account</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Join Tighra Dam digital ticket booking platform</p>
+      </div>
+
+      <form onsubmit="handleRegisterPageSubmit(event)">
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label"><i class="fa-solid fa-user"></i> Full Name</label>
+          <input type="text" id="reg-page-name" class="form-input" required placeholder="e.g. Anand Sharma">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label"><i class="fa-solid fa-envelope"></i> Email Address</label>
+          <input type="email" id="reg-page-email" class="form-input" required placeholder="name@example.com">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label"><i class="fa-solid fa-phone"></i> Mobile Number</label>
+          <input type="tel" id="reg-page-phone" class="form-input" required placeholder="+91 98765 43210">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.75rem;">
+          <label class="form-label"><i class="fa-solid fa-key"></i> Password</label>
+          <input type="password" id="reg-page-password" class="form-input" required placeholder="••••••••">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" style="padding: 1rem; font-size: 1.05rem;"><i class="fa-solid fa-check-circle"></i> Create Account & Proceed</button>
+      </form>
+
+      <p style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+        Already have an account? <a href="/login" style="color: var(--primary); text-decoration: none; font-weight: 700;">Login Here</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+      <p>&copy; 2026 Tighra Smart Boat Booking System | Official MP Tourism Portal</p>
+    </div>
+  </footer>
+
+  <script>
+    async function handleRegisterPageSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("reg-page-name").value;
+      const email = document.getElementById("reg-page-email").value;
+      const phone = document.getElementById("reg-page-phone").value;
+      const password = document.getElementById("reg-page-password").value;
+
+      try {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, phone, password })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          localStorage.setItem("tighra_token", data.access_token);
+          alert(`Account created successfully! Welcome, ${data.user.name}`);
+          window.location.href = "/";
+        } else {
+          alert(`Registration Failed: ${data.detail}`);
+        }
+      } catch (err) {
+        alert("Server error during registration.");
+      }
+    }
+  </script>
+</body>
+</html>

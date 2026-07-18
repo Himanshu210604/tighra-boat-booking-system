@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Tighra Smart Boat System</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; justify-content: space-between;">
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span class="brand-icon">⚓</span> Tighra<span class="highlight">Boats</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="/register" class="nav-link"><i class="fa-solid fa-user-plus"></i> Register</a></li>
+      <li><a href="/operator" class="nav-link"><i class="fa-solid fa-qrcode"></i> Gate Scanner</a></li>
+      <li><a href="/admin" class="nav-link"><i class="fa-solid fa-chart-line"></i> Admin Console</a></li>
+    </ul>
+  </nav>
+
+  <main style="max-width: 480px; width: 90%; margin: 3rem auto; flex-grow: 1;">
+    <div class="card" style="border: 1px solid var(--primary); padding: 2.5rem; text-align: center;">
+      <div style="font-size: 3rem; color: var(--primary); margin-bottom: 0.75rem;"><i class="fa-solid fa-circle-user"></i></div>
+      <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.25rem;">Sign In to Account</h2>
+      <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Select demo role or enter your credentials to log in</p>
+
+      <!-- Quick Demo Login Buttons -->
+      <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem;">
+        <button class="btn btn-outline" style="border-color: #38bdf8; justify-content: flex-start; padding: 0.75rem 1.25rem;" onclick="quickLogin('tourist@example.com', 'Tourist@123')">
+          <i class="fa-solid fa-user" style="color: #38bdf8; font-size: 1.2rem;"></i>
+          <span style="text-align: left; flex-grow: 1;">
+            <strong>Demo Tourist Login</strong><br>
+            <small style="color: var(--text-muted);">tourist@example.com</small>
+          </span>
+          <i class="fa-solid fa-arrow-right" style="color: var(--text-muted);"></i>
+        </button>
+
+        <button class="btn btn-outline" style="border-color: #10b981; justify-content: flex-start; padding: 0.75rem 1.25rem;" onclick="quickLogin('operator@tighra.gov.in', 'Operator@123')">
+          <i class="fa-solid fa-user-shield" style="color: #10b981; font-size: 1.2rem;"></i>
+          <span style="text-align: left; flex-grow: 1;">
+            <strong>Demo Gate Operator Login</strong><br>
+            <small style="color: var(--text-muted);">operator@tighra.gov.in</small>
+          </span>
+          <i class="fa-solid fa-arrow-right" style="color: var(--text-muted);"></i>
+        </button>
+
+        <button class="btn btn-outline" style="border-color: #f59e0b; justify-content: flex-start; padding: 0.75rem 1.25rem;" onclick="quickLogin('admin@tighra.gov.in', 'Admin@123')">
+          <i class="fa-solid fa-bolt" style="color: #f59e0b; font-size: 1.2rem;"></i>
+          <span style="text-align: left; flex-grow: 1;">
+            <strong>Demo Administrator Login</strong><br>
+            <small style="color: var(--text-muted);">admin@tighra.gov.in</small>
+          </span>
+          <i class="fa-solid fa-arrow-right" style="color: var(--text-muted);"></i>
+        </button>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <hr style="flex-grow: 1; border: none; border-top: 1px solid var(--card-border);">
+        <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">OR ENTER CREDENTIALS</span>
+        <hr style="flex-grow: 1; border: none; border-top: 1px solid var(--card-border);">
+      </div>
+
+      <form onsubmit="handleLoginPageSubmit(event)">
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label"><i class="fa-solid fa-envelope"></i> Email Address</label>
+          <input type="email" id="page-email" class="form-input" required placeholder="name@example.com">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.75rem;">
+          <label class="form-label"><i class="fa-solid fa-key"></i> Password</label>
+          <input type="password" id="page-password" class="form-input" required placeholder="••••••••">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" style="padding: 1rem; font-size: 1.05rem;"><i class="fa-solid fa-right-to-bracket"></i> Login to Portal</button>
+      </form>
+
+      <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+        Don't have an account? <a href="/register" style="color: var(--primary); text-decoration: none; font-weight: 700;">Register Here</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+      <p>&copy; 2026 Tighra Smart Boat Booking System | Official MP Tourism Portal</p>
+    </div>
+  </footer>
+
+  <script>
+    async function quickLogin(email, password) {
+      document.getElementById("page-email").value = email;
+      document.getElementById("page-password").value = password;
+      loginWithCredentials(email, password);
+    }
+
+    async function handleLoginPageSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById("page-email").value;
+      const password = document.getElementById("page-password").value;
+      loginWithCredentials(email, password);
+    }
+
+    async function loginWithCredentials(email, password) {
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          const user = data.user;
+          const token = data.access_token;
+
+          localStorage.setItem("tighra_token", token);
+          if (user.role === "admin") {
+            localStorage.setItem("tighra_admin_token", token);
+            window.location.href = "/admin";
+          } else if (user.role === "operator") {
+            localStorage.setItem("tighra_op_token", token);
+            window.location.href = "/operator";
+          } else {
+            window.location.href = "/";
+          }
+        } else {
+          alert(`Login Failed: ${data.detail}`);
+        }
+      } catch (err) {
+        alert("Server error during login.");
+      }
+    }
+  </script>
+</body>
+</html>
