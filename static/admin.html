@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Control Center | Tighra Smart Boat System</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span class="brand-icon">⚡</span> Admin Control Center
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Tourist App</a></li>
+      <li><a href="/operator" class="nav-link"><i class="fa-solid fa-qrcode"></i> Gate Scanner</a></li>
+      <li id="adm-auth-btn">
+        <button class="btn btn-outline" onclick="quickLoginAdmin()"><i class="fa-solid fa-key"></i> Demo Login (Admin)</button>
+      </li>
+      <li id="adm-user-profile" style="display: none;">
+        <span id="adm-name" style="font-weight: 700; color: #f59e0b; margin-right: 0.5rem;"></span>
+        <button class="btn btn-outline" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </li>
+    </ul>
+  </nav>
+
+  <main style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem;">
+
+    <div id="adm-login-prompt" class="card" style="text-align: center; margin-bottom: 2rem;">
+      <i class="fa-solid fa-shield-halved" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
+      <h2>Administrator Authentication Required</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Log in as Administrator to access live revenue analytics, fleet management, and slot configurations.</p>
+      <button class="btn btn-primary" onclick="quickLoginAdmin()"><i class="fa-solid fa-bolt"></i> Login as Administrator</button>
+    </div>
+
+    <div id="adm-dashboard-area" style="display: none;">
+
+      <!-- KPI Metrics Row -->
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: 2rem;">
+        <div class="card kpi-card">
+          <div class="kpi-icon" style="background: var(--gold-gradient);"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+          <div>
+            <div id="kpi-total-revenue" class="kpi-value">₹0</div>
+            <div class="kpi-label">Total Revenue Collected</div>
+          </div>
+        </div>
+        <div class="card kpi-card">
+          <div class="kpi-icon"><i class="fa-solid fa-ticket"></i></div>
+          <div>
+            <div id="kpi-total-bookings" class="kpi-value">0</div>
+            <div class="kpi-label">Total Bookings</div>
+          </div>
+        </div>
+        <div class="card kpi-card">
+          <div class="kpi-icon" style="background: var(--accent-gradient);"><i class="fa-solid fa-ship"></i></div>
+          <div>
+            <div id="kpi-active-boats" class="kpi-value">0</div>
+            <div class="kpi-label">Active Boats in Fleet</div>
+          </div>
+        </div>
+        <div class="card kpi-card">
+          <div class="kpi-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);"><i class="fa-solid fa-person-swimming"></i></div>
+          <div>
+            <div id="kpi-today-passengers" class="kpi-value">0</div>
+            <div class="kpi-label">Total Passengers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fleet Management Section -->
+      <section style="margin-bottom: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.6rem; font-weight: 700;">Boat Fleet Management</h2>
+          <button class="btn btn-primary" onclick="openModal('add-boat-modal')"><i class="fa-solid fa-plus"></i> Add New Boat</button>
+        </div>
+
+        <div id="admin-boats-grid" class="grid">
+          <!-- Loaded via JavaScript -->
+        </div>
+      </section>
+
+      <!-- Bookings Ledger Section -->
+      <section style="margin-bottom: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <h2 style="font-size: 1.6rem; font-weight: 700;">Master Booking Ledger</h2>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" id="adm-search-input" class="form-input" placeholder="Search Ref or QR..." style="width: 220px;" onkeyup="loadAdminBookings()">
+            <select id="adm-status-filter" class="form-select" onchange="loadAdminBookings()" style="width: 160px;">
+              <option value="">All Statuses</option>
+              <option value="CONFIRMED">CONFIRMED</option>
+              <option value="USED">USED</option>
+              <option value="CANCELLED">CANCELLED</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card" style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--card-border); color: var(--text-muted);">
+                <th style="padding: 1rem;">Ref Code</th>
+                <th style="padding: 1rem;">Tourist</th>
+                <th style="padding: 1rem;">Boat</th>
+                <th style="padding: 1rem;">Date & Slot</th>
+                <th style="padding: 1rem;">Passengers</th>
+                <th style="padding: 1rem;">Amount</th>
+                <th style="padding: 1rem;">Status</th>
+                <th style="padding: 1rem;">QR Token</th>
+              </tr>
+            </thead>
+            <tbody id="admin-bookings-tbody">
+              <!-- Loaded via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Add Boat Modal -->
+  <div id="add-boat-modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Boat to Fleet</h3>
+        <button class="close-btn" onclick="closeModal('add-boat-modal')">&times;</button>
+      </div>
+
+      <form onsubmit="handleCreateBoat(event)">
+        <div class="form-group">
+          <label class="form-label">Boat Name</label>
+          <input type="text" id="add-boat-name" class="form-input" required placeholder="e.g. Blue Lagoon Shikara">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Boat Type</label>
+          <select id="add-boat-type" class="form-select" required>
+            <option value="Shikara">Shikara</option>
+            <option value="Speed Boat">Speed Boat</option>
+            <option value="Motor Boat">Motor Boat</option>
+            <option value="Paddle Boat">Paddle Boat</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Passenger Capacity</label>
+          <input type="number" id="add-boat-capacity" class="form-input" required min="1" max="50" value="8">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Rate Per Person (₹)</label>
+          <input type="number" id="add-boat-price" class="form-input" required min="10" step="5" value="250">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <input type="text" id="add-boat-desc" class="form-input" placeholder="Luxury boat with sunshade canopy">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-plus"></i> Create Boat</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Tighra Smart Boat Booking System | Administrator Control Console</p>
+  </footer>
+
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>
