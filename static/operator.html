@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gate QR Scanner | Tighra Smart Boat System</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- HTML5 QR Code Scanner Library -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span class="brand-icon">🛡️</span> Gate QR Scanner Portal
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link"><i class="fa-solid fa-house"></i> Tourist App</a></li>
+      <li><a href="/admin" class="nav-link"><i class="fa-solid fa-chart-line"></i> Admin Dashboard</a></li>
+      <li id="op-auth-btn">
+        <button class="btn btn-outline" onclick="quickLoginOperator()"><i class="fa-solid fa-key"></i> Demo Login (Operator)</button>
+      </li>
+      <li id="op-user-profile" style="display: none;">
+        <span id="op-name" style="font-weight: 700; color: #10b981; margin-right: 0.5rem;"></span>
+        <button class="btn btn-outline" onclick="logoutOperator()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </li>
+    </ul>
+  </nav>
+
+  <main style="max-width: 900px; margin: 2rem auto; padding: 0 1.5rem;">
+
+    <div id="op-login-prompt" class="card" style="text-align: center; margin-bottom: 2rem;">
+      <i class="fa-solid fa-user-shield" style="font-size: 3rem; color: #38bdf8; margin-bottom: 1rem;"></i>
+      <h2>Boat Operator Login Required</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Please log in with gate operator credentials to access the ticket verification scanner.</p>
+      <button class="btn btn-primary" onclick="quickLoginOperator()"><i class="fa-solid fa-bolt"></i> Login as Operator (Ram)</button>
+    </div>
+
+    <div id="op-scanner-area" style="display: none;">
+
+      <!-- Operator Summary KPI -->
+      <div class="grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 2rem;">
+        <div class="card kpi-card">
+          <div class="kpi-icon"><i class="fa-solid fa-qrcode"></i></div>
+          <div>
+            <div id="kpi-scanned-count" class="kpi-value">0</div>
+            <div class="kpi-label">Tickets Scanned Today</div>
+          </div>
+        </div>
+        <div class="card kpi-card">
+          <div class="kpi-icon" style="background: var(--gold-gradient);"><i class="fa-solid fa-users"></i></div>
+          <div>
+            <div id="kpi-passengers-count" class="kpi-value">0</div>
+            <div class="kpi-label">Total Boarded Passengers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scanner Container -->
+      <div class="card" style="text-align: center;">
+        <h2 style="margin-bottom: 1rem;"><i class="fa-solid fa-camera"></i> Live Ticket QR Scanner</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Point camera at tourist digital QR code to verify boarding pass</p>
+        
+        <div id="reader"></div>
+
+        <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; justify-content: center;">
+          <button class="btn btn-primary" onclick="startScanner()"><i class="fa-solid fa-video"></i> Start Camera</button>
+          <button class="btn btn-outline" onclick="stopScanner()"><i class="fa-solid fa-video-slash"></i> Stop Camera</button>
+        </div>
+
+        <div style="margin-top: 2rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem;">
+          <label class="form-label" style="text-align: center;">Or Enter QR Token / Reference Code Manually</label>
+          <div style="display: flex; gap: 0.5rem; max-width: 450px; margin: 0 auto;">
+            <input type="text" id="manual-qr-input" class="form-input" placeholder="e.g. TGH-QR-ABC123XYZ or TIGHRA-98A7">
+            <button class="btn btn-success" onclick="verifyManualQR()"><i class="fa-solid fa-check"></i> Verify</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verification Result Display Modal -->
+      <div id="result-modal" class="modal-backdrop">
+        <div class="modal" style="max-width: 450px; text-align: center;">
+          <div id="result-icon" style="font-size: 4rem; margin-bottom: 1rem;"></div>
+          <h3 id="result-title" class="modal-title" style="margin-bottom: 0.5rem;"></h3>
+          <p id="result-message" style="font-size: 1.05rem; margin-bottom: 1.5rem;"></p>
+
+          <div id="result-details" style="background: #0f172a; padding: 1rem; border-radius: 12px; text-align: left; margin-bottom: 1.5rem; display: none;">
+            <!-- Details loaded via JS -->
+          </div>
+
+          <button class="btn btn-primary btn-block" onclick="closeModal('result-modal')">Scan Next Ticket</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Tighra Smart Boat Booking System | Gate Operator QR Verification Terminal</p>
+  </footer>
+
+  <script src="/static/js/scanner.js"></script>
+</body>
+</html>
