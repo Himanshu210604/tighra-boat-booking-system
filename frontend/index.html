@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tighra Dam Smart Boat Booking - Official Waterways</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="carferry-nav">
+        <div class="nav-brand" onclick="showTab('home')">
+            <i class="fa-solid fa-ship brand-icon"></i>
+            <span class="brand-name">Tighra<span class="brand-orange">Boats</span></span>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="#" class="menu-link active" id="navHomeLink" onclick="showTab('home')">Home</a>
+            <a href="#searchSection" class="menu-link" onclick="scrollToSection('searchSection')">Book Ride</a>
+            <a href="#fleetSection" class="menu-link" onclick="scrollToSection('fleetSection')">Boats & Rates</a>
+            <a href="#gallerySection" class="menu-link" onclick="scrollToSection('gallerySection')">Real Gallery</a>
+            <a href="#verifySection" class="menu-link" onclick="scrollToSection('verifySection')">Staff Scanner</a>
+            <a href="#" class="menu-link hidden" id="navAdminLink" onclick="showTab('adminPortal')"><i class="fa-solid fa-user-shield"></i> Admin Portal</a>
+        </div>
+
+        <div class="nav-actions-right" id="navActions">
+            <button class="btn btn-outline-light" id="navLoginBtn" onclick="showTab('login')"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+            <button class="btn btn-orange" id="navRegisterBtn" onclick="showTab('register')"><i class="fa-solid fa-user-plus"></i> Register</button>
+            <div class="user-badge hidden" id="userBadge">
+                <i class="fa-solid fa-circle-user"></i>
+                <span id="badgeUserName">User</span>
+                <button class="btn-icon-light" title="Logout" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Alert Notification Banner -->
+        <div class="alert-fixed-wrapper">
+            <div id="alertBox" class="alert-box hidden"></div>
+        </div>
+
+        <!-- ================= HOME TAB ================= -->
+        <div id="homeView" class="tab-content active">
+            <!-- Hero Section -->
+            <section class="carferry-hero-section">
+                <div class="carferry-hero-bg">
+                    <img src="assets/real_tighra_lake_boats.jpg" alt="Real Tighra Dam Reservoir" class="hero-bg-img">
+                    <div class="hero-dark-overlay"></div>
+                </div>
+
+                <div class="carferry-hero-content">
+                    <div class="pill-badge">
+                        <i class="fa-solid fa-briefcase"></i> Gwalior's Premier Waterway Service
+                    </div>
+                    
+                    <h1 class="hero-headline">
+                        Ready to Begin Your <span class="highlight-orange">Journey</span>?
+                    </h1>
+
+                    <p class="hero-subline">
+                        Experience seamless boat and ferry travel across Gwalior's beautiful Tighra Dam reservoir.<br>Safe, reliable, and scenic journeys.
+                    </p>
+
+                    <div class="hero-cta-buttons">
+                        <button class="btn btn-orange btn-lg" onclick="scrollToSection('searchSection')">
+                            Book Your Ride <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('fleetSection')">
+                            View Boats & Rates
+                        </button>
+                    </div>
+
+                    <div class="scroll-indicator" onclick="scrollToSection('searchSection')">
+                        <span>Scroll to explore</span>
+                        <i class="fa-solid fa-chevron-down bounce-arrow"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search & Payment Booking Section -->
+            <section class="booking-search-section" id="searchSection">
+                <div class="search-card-container">
+                    <div class="search-card-header">
+                        <div class="header-title">
+                            <i class="fa-solid fa-compass"></i>
+                            <h3>Select Your Journey, Time Slot & Payment Method</h3>
+                        </div>
+                        <span class="live-status"><i class="fa-solid fa-circle"></i> Live System Online</span>
+                    </div>
+
+                    <form class="interactive-form" onsubmit="handleBookingSubmit(event)">
+                        <div class="form-grid-4">
+                            <div class="input-block">
+                                <label><i class="fa-solid fa-ship"></i> Boat Category</label>
+                                <select id="bookBoatName" onchange="updatePriceCalculation()">
+                                    <option value="Speed Boat Express">Speed Boat Express (₹400 / seat)</option>
+                                    <option value="Family Paddle Boat">Family Paddle Boat (₹250 / seat)</option>
+                                    <option value="Tighra Dam Scenic Cruise">Tighra Dam Cruise (₹150 / seat)</option>
+                                </select>
+                            </div>
+
+                            <div class="input-block">
+                                <label><i class="fa-solid fa-calendar-days"></i> Booking Date</label>
+                                <input type="date" id="bookDate" required>
+                            </div>
+
+                            <div class="input-block">
+                                <label><i class="fa-solid fa-clock"></i> Time Slot</label>
+                                <select id="bookTimeSlot">
+                                    <option value="09:30 AM - 10:00 AM">09:30 AM - 10:00 AM</option>
+                                    <option value="11:30 AM - 12:00 PM">11:30 AM - 12:00 PM</option>
+                                    <option value="02:30 PM - 03:00 PM">02:30 PM - 03:00 PM</option>
+                                    <option value="04:30 PM - 05:00 PM">04:30 PM - 05:00 PM (Sunset)</option>
+                                </select>
+                            </div>
+
+                            <div class="input-block">
+                                <label><i class="fa-solid fa-users"></i> Passengers</label>
+                                <select id="bookPassengers" onchange="updatePriceCalculation()">
+                                    <option value="1">1 Passenger</option>
+                                    <option value="2">2 Passengers</option>
+                                    <option value="4">4 Passengers</option>
+                                    <option value="6">6 Passengers</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method Selector -->
+                        <div class="payment-selection-box">
+                            <label class="pay-title"><i class="fa-solid fa-credit-card"></i> Choose Instant Payment Gateway</label>
+                            <div class="payment-options">
+                                <label class="pay-chip active">
+                                    <input type="radio" name="payMethod" value="Razorpay (UPI / GooglePay)" checked>
+                                    <i class="fa-solid fa-mobile-screen-button"></i> Razorpay (UPI / GPay / PhonePe)
+                                </label>
+                                <label class="pay-chip">
+                                    <input type="radio" name="payMethod" value="Credit / Debit Card">
+                                    <i class="fa-solid fa-credit-card"></i> Credit / Debit Card
+                                </label>
+                                <label class="pay-chip">
+                                    <input type="radio" name="payMethod" value="NetBanking">
+                                    <i class="fa-solid fa-building-columns"></i> NetBanking
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="checkout-bar">
+                            <div class="total-calc">
+                                <span>Total Amount to Pay:</span>
+                                <strong id="calcTotalAmount">₹400</strong>
+                            </div>
+                            <button type="submit" class="btn btn-orange btn-lg" id="paySubmitBtn">
+                                <i class="fa-solid fa-lock"></i> Pay Now & Generate Valid QR Ticket
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Real Photos Gallery Section -->
+            <section class="real-gallery-section" id="gallerySection">
+                <div class="section-title">
+                    <span class="sub-tag">Authentic Gwalior Destination</span>
+                    <h2>Tighra Dam Real Reservoir Gallery</h2>
+                    <p>Actual high-definition photography of Tighra Dam waters, spillway embankment, and boating activities.</p>
+                </div>
+
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <div class="img-frame">
+                            <img src="assets/real_tighra_lake_boats.jpg" alt="Tighra Reservoir Boating" class="gallery-img">
+                        </div>
+                        <div class="card-caption">
+                            <h4><i class="fa-solid fa-water"></i> Tighra Lake & Boating Fleet</h4>
+                            <p>Real aerial view of tourists enjoying motorboat rides across calm turquoise waters.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="img-frame">
+                            <img src="assets/real_tighra_dam_wall.jpg" alt="Tighra Dam Wall Embankment" class="gallery-img">
+                        </div>
+                        <div class="card-caption">
+                            <h4><i class="fa-solid fa-landmark"></i> Curved Dam Wall Embankment</h4>
+                            <p>Real photograph showing the long historic masonry dam wall curving along the reservoir.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="img-frame">
+                            <img src="assets/real_tighra_dam_spillway.jpg" alt="Tighra Dam Spillway Sluice" class="gallery-img">
+                        </div>
+                        <div class="card-caption">
+                            <h4><i class="fa-solid fa-sitemap"></i> Dam Spillway & Surrounding Forest</h4>
+                            <p>Real aerial shot of the water release sluice channels and surrounding lush green forest.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fleet & Rates Showcase -->
+            <section class="fleet-tariff-section" id="fleetSection">
+                <div class="section-title">
+                    <span class="sub-tag">Boating Tariff</span>
+                    <h2>Choose Your Ride & View Rates</h2>
+                    <p>Select from high-speed thrill boats, family paddle rides, or group dam cruises.</p>
+                </div>
+
+                <div class="fleet-cards-grid">
+                    <div class="tariff-box">
+                        <div class="badge-tag speed-bg">Speed Ride</div>
+                        <h3>Speed Boat Express</h3>
+                        <div class="price-line">
+                            <span class="currency">₹</span><span class="val">400</span><span class="unit"> / seat</span>
+                        </div>
+                        <ul class="features-list">
+                            <li><i class="fa-solid fa-users"></i> 6 Passengers Capacity</li>
+                            <li><i class="fa-solid fa-clock"></i> 15 Minutes Thrill Ride</li>
+                            <li><i class="fa-solid fa-life-ring"></i> Safety Life Jacket Included</li>
+                            <li><i class="fa-solid fa-qrcode"></i> Instant Valid QR Ticket Issued</li>
+                        </ul>
+                        <button class="btn btn-orange btn-block" onclick="selectBoat('Speed Boat Express')">Select & Book</button>
+                    </div>
+
+                    <div class="tariff-box highlight-box">
+                        <div class="badge-tag family-bg">Popular Choice</div>
+                        <h3>Family Paddle Boat</h3>
+                        <div class="price-line">
+                            <span class="currency">₹</span><span class="val">250</span><span class="unit"> / seat</span>
+                        </div>
+                        <ul class="features-list">
+                            <li><i class="fa-solid fa-users"></i> 4 Passengers Capacity</li>
+                            <li><i class="fa-solid fa-clock"></i> 30 Minutes Self-Paddle</li>
+                            <li><i class="fa-solid fa-life-ring"></i> Safety Life Jacket Included</li>
+                            <li><i class="fa-solid fa-qrcode"></i> Instant Valid QR Ticket Issued</li>
+                        </ul>
+                        <button class="btn btn-orange btn-block" onclick="selectBoat('Family Paddle Boat')">Select & Book</button>
+                    </div>
+
+                    <div class="tariff-box">
+                        <div class="badge-tag cruise-bg">Group Tour</div>
+                        <h3>Tighra Dam Cruise</h3>
+                        <div class="price-line">
+                            <span class="currency">₹</span><span class="val">150</span><span class="unit"> / seat</span>
+                        </div>
+                        <ul class="features-list">
+                            <li><i class="fa-solid fa-users"></i> 30 Passengers Capacity</li>
+                            <li><i class="fa-solid fa-clock"></i> 45 Minutes Scenic Cruise</li>
+                            <li><i class="fa-solid fa-life-ring"></i> Safety Life Jacket Included</li>
+                            <li><i class="fa-solid fa-qrcode"></i> Instant Valid QR Ticket Issued</li>
+                        </ul>
+                        <button class="btn btn-orange btn-block" onclick="selectBoat('Tighra Dam Scenic Cruise')">Select & Book</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Operator Ticket Verification Section -->
+            <section class="verify-section-block" id="verifySection">
+                <div class="verify-card">
+                    <div class="verify-header">
+                        <i class="fa-solid fa-qrcode"></i>
+                        <div>
+                            <h3>Staff & Boat Operator Ticket Verifier</h3>
+                            <p>Enter or scan QR Ticket Number to validate entry at the jetty gate.</p>
+                        </div>
+                    </div>
+                    <form class="verify-form" onsubmit="handleVerifyQR(event)">
+                        <input type="text" id="verifyTicketNum" placeholder="e.g. TIGH-8A4F99" required>
+                        <button type="submit" class="btn btn-orange"><i class="fa-solid fa-shield-check"></i> Validate Ticket</button>
+                    </form>
+                    <div id="verifyResult" class="verify-result-box hidden"></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= LOGIN TAB ================= -->
+        <div id="loginView" class="auth-wrapper tab-content">
+            <div class="auth-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-lock"></i> Account Login</h2>
+                    <p>Enter your credentials to access tickets & booking portal</p>
+                </div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail"><i class="fa-solid fa-envelope"></i> Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="e.g. tourist@tighra.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword"><i class="fa-solid fa-key"></i> Password</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-orange btn-block" id="loginSubmitBtn">
+                        <span>Login to Account</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="demo-acc-box">
+                    <p class="demo-title"><i class="fa-solid fa-bolt"></i> Click to Auto-fill Demo Accounts:</p>
+                    <div class="demo-chips">
+                        <button class="chip" onclick="fillDemo('admin@tighra.com', 'AdminPassword123!')">
+                            <i class="fa-solid fa-user-shield"></i> Admin Login
+                        </button>
+                        <button class="chip" onclick="fillDemo('tourist@tighra.com', 'TouristPassword123!')">
+                            <i class="fa-solid fa-user"></i> Tourist
+                        </button>
+                        <button class="chip" onclick="fillDemo('operator@tighra.com', 'OperatorPassword123!')">
+                            <i class="fa-solid fa-compass"></i> Operator
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <span>Don't have an account?</span>
+                    <a href="#" onclick="showTab('register')">Register Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= REGISTER TAB ================= -->
+        <div id="registerView" class="auth-wrapper tab-content">
+            <div class="auth-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-user-plus"></i> Create Account</h2>
+                    <p>Register to start instant boat ride bookings</p>
+                </div>
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="regFullName"><i class="fa-solid fa-id-card"></i> Full Name</label>
+                        <input type="text" id="regFullName" placeholder="e.g. Rahul Sharma" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail"><i class="fa-solid fa-envelope"></i> Email Address</label>
+                        <input type="email" id="regEmail" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPhone"><i class="fa-solid fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="regPhone" placeholder="+91 9876543210" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword"><i class="fa-solid fa-lock"></i> Password</label>
+                        <input type="password" id="regPassword" placeholder="Min. 6 characters" required>
+                    </div>
+                    <button type="submit" class="btn btn-orange btn-block" id="regSubmitBtn">
+                        <span>Create Account</span> <i class="fa-solid fa-check"></i>
+                    </button>
+                </form>
+                <div class="card-footer">
+                    <span>Already registered?</span>
+                    <a href="#" onclick="showTab('login')">Sign In</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= DASHBOARD / MY TICKETS TAB ================= -->
+        <div id="dashboardView" class="tab-content">
+            <div class="dashboard-wrapper">
+                <div class="dashboard-card">
+                    <div class="dash-header">
+                        <div class="user-meta">
+                            <div class="avatar" id="dashAvatar">U</div>
+                            <div>
+                                <h3 id="dashName">User Name</h3>
+                                <span class="role-badge" id="dashRole">Tourist</span>
+                                <span class="email-sub" id="dashEmail">user@example.com</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-dark btn-sm" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout</button>
+                    </div>
+
+                    <div class="my-tickets-section">
+                        <h3><i class="fa-solid fa-ticket"></i> My Booked Digital QR Tickets</h3>
+                        <div id="ticketsListContainer" class="tickets-list-grid">
+                            <p class="empty-msg">Fetching your booked tickets from database...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ADMIN MANAGEMENT PORTAL ================= -->
+        <div id="adminPortalView" class="tab-content">
+            <div class="admin-dashboard-container">
+                <div class="admin-header-bar">
+                    <div>
+                        <h2><i class="fa-solid fa-user-shield"></i> System Admin Management Portal</h2>
+                        <p>Real-time revenue metrics, system bookings, fleet management, and registered users.</p>
+                    </div>
+                    <button class="btn btn-outline-light btn-sm" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout Admin</button>
+                </div>
+
+                <!-- Admin Metrics Row -->
+                <div class="admin-stats-grid">
+                    <div class="stat-box">
+                        <i class="fa-solid fa-indian-rupee-sign stat-icon"></i>
+                        <div>
+                            <span class="stat-label">Total System Revenue</span>
+                            <strong id="statRevenue">₹0.00</strong>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-ticket stat-icon"></i>
+                        <div>
+                            <span class="stat-label">Total Bookings</span>
+                            <strong id="statBookings">0</strong>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-users stat-icon"></i>
+                        <div>
+                            <span class="stat-label">Registered Users</span>
+                            <strong id="statUsers">0</strong>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-ship stat-icon"></i>
+                        <div>
+                            <span class="stat-label">Active Boats</span>
+                            <strong id="statBoats">0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Tabs / Tables -->
+                <div class="admin-content-box">
+                    <h3><i class="fa-solid fa-list-check"></i> System Bookings Database</h3>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Ticket #</th>
+                                    <th>Boat Name</th>
+                                    <th>Date</th>
+                                    <th>Time Slot</th>
+                                    <th>Passengers</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminBookingsTable">
+                                <tr><td colspan="8" class="text-center">Loading system bookings...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- TICKET GENERATED MODAL -->
+    <div id="ticketModal" class="ticket-modal-overlay hidden">
+        <div class="ticket-modal-card">
+            <div class="modal-header">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                <div>
+                    <h2>Payment Successful & QR Ticket Generated!</h2>
+                    <p>Your ticket is confirmed and stored in the database.</p>
+                </div>
+                <button class="close-btn" onclick="closeTicketModal()">&times;</button>
+            </div>
+            
+            <div class="ticket-body" id="printableTicket">
+                <div class="ticket-pass-header">
+                    <div class="pass-brand"><i class="fa-solid fa-ship"></i> Tighra Dam Waterways</div>
+                    <div class="pass-num" id="modalTicketNum">TIGH-XXXXXX</div>
+                </div>
+
+                <div class="ticket-flex">
+                    <div class="qr-box">
+                        <img id="modalQRImage" src="" alt="Valid QR Code" class="qr-img">
+                        <span class="qr-status-badge">SCANNABLE QR PASS</span>
+                    </div>
+                    
+                    <div class="pass-details">
+                        <h4 id="modalBoatName">Speed Boat Express</h4>
+                        <p><strong>Date:</strong> <span id="modalDate">Today</span></p>
+                        <p><strong>Slot:</strong> <span id="modalSlot">04:30 PM</span></p>
+                        <p><strong>Passengers:</strong> <span id="modalPassengers">2 Persons</span></p>
+                        <p><strong>Total Amount Paid:</strong> <span id="modalAmount">₹800.00</span></p>
+                        <p><strong>Status:</strong> <span class="badge-active">VALID & ACTIVE</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-outline-dark" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Ticket</button>
+                <button class="btn btn-orange" onclick="closeTicketModal(); showTab('dashboard');"><i class="fa-solid fa-ticket"></i> View All My Tickets</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <i class="fa-solid fa-ship"></i> Tighra Dam Waterways Portal
+            </div>
+            <p>© 2026 Tighra Dam Tourism & Waterways Department, Gwalior (M.P.). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
