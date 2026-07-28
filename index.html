@@ -15,17 +15,20 @@
     <a href="/" class="brand">
       <span class="brand-icon">⚓</span> Tighra<span class="highlight">Boats</span>
     </a>
-    <ul class="nav-links">
-      <li><a href="#" class="nav-link active" onclick="switchTab('fleet')">Fleet & Rides</a></li>
-      <li id="my-tickets-nav" style="display: none;"><a href="#" class="nav-link" onclick="switchTab('tickets')">My Tickets</a></li>
-      <li><a href="#showcase-3d" class="nav-link">3D Live Dam View</a></li>
-      <li><a href="#features" class="nav-link">Features</a></li>
-      <li><a href="#visitor-info" class="nav-link">Guidelines</a></li>
+    <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <ul class="nav-links" id="navLinksMenu">
+      <li><a href="#" class="nav-link active" onclick="switchTab('fleet'); closeMobileNav();">Fleet & Rides</a></li>
+      <li id="my-tickets-nav" style="display: none;"><a href="#" class="nav-link" onclick="switchTab('tickets'); closeMobileNav();">My Tickets</a></li>
+      <li><a href="#showcase-3d" class="nav-link" onclick="closeMobileNav();">3D Live Dam View</a></li>
+      <li><a href="#features" class="nav-link" onclick="closeMobileNav();">Features</a></li>
+      <li><a href="#visitor-info" class="nav-link" onclick="closeMobileNav();">Guidelines</a></li>
       <li><a href="/operator" class="nav-link" target="_blank"><i class="fa-solid fa-qrcode"></i> Gate Scanner</a></li>
       <li><a href="/admin" class="nav-link" target="_blank"><i class="fa-solid fa-chart-line"></i> Admin Console</a></li>
       <li id="auth-buttons">
-        <a href="/login" class="btn btn-outline">Login</a>
-        <a href="/register" class="btn btn-primary">Register</a>
+        <a href="/login" class="btn btn-outline" onclick="closeMobileNav();">Login</a>
+        <a href="/register" class="btn btn-primary" onclick="closeMobileNav();">Register</a>
       </li>
       <li id="user-profile" style="display: none;">
         <span id="user-display-name" style="font-weight: 700; color: var(--primary); margin-right: 0.5rem;"></span>
@@ -414,7 +417,46 @@
         <button type="submit" class="btn btn-primary btn-block" style="padding: 0.9rem;">Create Account</button>
       </form>
     </div>
-  </div>
+    <!-- Meet the Creator & Visionary Section -->
+    <section id="creator-section" style="margin-top: 5rem; margin-bottom: 3rem;">
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <div class="badge-pill" style="margin-bottom: 0.75rem;">
+          <span class="pulse-dot"></span> THE MIND BEHIND TIGHRA BOATS
+        </div>
+        <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem;">Meet the Creator & Visionary</h2>
+        <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto;">Innovating digital tourism infrastructure for Gwalior's iconic Tighra Dam</p>
+      </div>
+
+      <div class="creator-card" style="background: var(--dark-card); border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem; display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap; box-shadow: var(--glass-shadow);">
+        <div class="creator-img-wrapper" style="position: relative; flex-shrink: 0;">
+          <img src="/static/images/himanshu_rathore.jpg" alt="Himanshu Rathore - Creator & Lead Architect" style="width: 210px; height: 210px; border-radius: 20px; object-fit: cover; border: 3px solid var(--primary); box-shadow: 0 12px 32px rgba(255, 107, 0, 0.35);">
+          <span style="position: absolute; bottom: -10px; right: -10px; background: var(--primary-gradient); color: #fff; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">Architect</span>
+        </div>
+
+        <div style="flex: 1; min-width: 280px;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+            <h3 style="font-size: 1.85rem; font-weight: 800; color: #fff;">Himanshu Rathore</h3>
+            <span style="background: rgba(2, 132, 199, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700;"><i class="fa-solid fa-code"></i> Full-Stack System Architect</span>
+          </div>
+
+          <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.25rem;">
+            Conceptualized, engineered, and deployed by <strong>Himanshu Rathore</strong> to revolutionize tourism operations at Tighra Dam, Gwalior. Driven by a vision for smart digital infrastructure, Himanshu designed this end-to-end ecosystem integrating real-time seat allocations, instant QR ticket generation, gate-operator verification, and automated revenue management.
+          </p>
+
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+              <i class="fa-solid fa-lightbulb" style="color: var(--primary);"></i>
+              <span>Vision: Cashless & Queue-Free Tourism</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+              <i class="fa-solid fa-location-dot" style="color: var(--primary);"></i>
+              <span>Gwalior, Madhya Pradesh, India</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer>
