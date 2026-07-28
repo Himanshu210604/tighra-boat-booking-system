@@ -37,15 +37,15 @@ def run_tests():
     # 4. Test User Signup
     signup_payload = {
         "full_name": "Test Tourist",
-        "email": "tourist_test@tighra.com",
-        "phone": "+919876543210",
+        "email": "tourist_unique_test@tighra.com",
+        "phone": "+919876500000",
         "password": "Password123!",
         "role": "tourist"
     }
     signup_res = requests.post(f"{BASE_URL}/auth/signup", json=signup_payload)
     assert signup_res.status_code == 201, f"Signup failed: {signup_res.text}"
     user_data = signup_res.json()
-    assert user_data["email"] == "tourist_test@tighra.com"
+    assert user_data["email"] == "tourist_unique_test@tighra.com"
     assert "id" in user_data
     print("[PASS] POST /api/v1/auth/signup")
 
@@ -56,7 +56,7 @@ def run_tests():
 
     # 6. Test Login Success
     login_payload = {
-        "email": "tourist_test@tighra.com",
+        "email": "tourist_unique_test@tighra.com",
         "password": "Password123!"
     }
     login_res = requests.post(f"{BASE_URL}/auth/login", json=login_payload)
@@ -68,7 +68,7 @@ def run_tests():
 
     # 7. Test Login Wrong Password
     bad_login_res = requests.post(f"{BASE_URL}/auth/login", json={
-        "email": "tourist_test@tighra.com",
+        "email": "tourist_unique_test@tighra.com",
         "password": "WrongPassword!"
     })
     assert bad_login_res.status_code == 401, f"Wrong password login didn't return 401: {bad_login_res.text}"
@@ -81,7 +81,7 @@ def run_tests():
     )
     assert me_res.status_code == 200, f"Profile fetch failed: {me_res.text}"
     me_data = me_res.json()
-    assert me_data["email"] == "tourist_test@tighra.com"
+    assert me_data["email"] == "tourist_unique_test@tighra.com"
     assert me_data["full_name"] == "Test Tourist"
     print("[PASS] GET /api/v1/auth/me (Authenticated Profile)")
 
