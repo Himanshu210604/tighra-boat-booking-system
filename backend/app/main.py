@@ -14,7 +14,6 @@ from seed import seed_database
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Create database tables & seed initial users/boats on startup
     Base.metadata.create_all(bind=engine)
     try:
         seed_database()
@@ -31,7 +30,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS middleware configuration
+# Enable CORS for all clients
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -40,90 +39,42 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include Auth, Booking & Admin routers under /api/v1 and alias /api/auth, /api/boats, /api/bookings
+# API Routers under /api/v1 and /api
 app.include_router(auth_router, prefix=settings.API_V1_STR)
 app.include_router(booking_router, prefix=settings.API_V1_STR)
 app.include_router(admin_router, prefix=settings.API_V1_STR)
 
-# Aliases for root /api compatibility
 app.include_router(auth_router, prefix="/api")
 app.include_router(booking_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
 
 # Directory paths
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-api_dir = os.path.join(base_dir, "api")
-frontend_dir = os.path.join(base_dir, "frontend")
 static_dir = os.path.join(base_dir, "static")
-
-# Mount Assets & Static Folders
-assets_dir = os.path.join(api_dir, "assets") if os.path.exists(os.path.join(api_dir, "assets")) else os.path.join(frontend_dir, "assets")
-if os.path.exists(assets_dir):
-    app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-if os.path.exists(os.path.join(static_dir, "css")):
-    app.mount("/css", StaticFiles(directory=os.path.join(static_dir, "css")), name="css")
-
-if os.path.exists(os.path.join(static_dir, "js")):
-    app.mount("/js", StaticFiles(directory=os.path.join(static_dir, "js")), name="js")
-
-@app.get("/style.css")
-def get_style_css():
-    for p in [os.path.join(static_dir, "css", "style.css"), os.path.join(frontend_dir, "style.css"), os.path.join(api_dir, "style.css")]:
-        if os.path.exists(p):
-            return FileResponse(p, media_type="text/css")
-    return FileResponse(os.path.join(static_dir, "css", "style.css"), media_type="text/css")
-
-@app.get("/app.js")
-def get_app_js():
-    for p in [os.path.join(static_dir, "js", "app.js"), os.path.join(frontend_dir, "app.js"), os.path.join(api_dir, "app.js")]:
-        if os.path.exists(p):
-            return FileResponse(p, media_type="application/javascript")
-    return FileResponse(os.path.join(static_dir, "js", "app.js"), media_type="application/javascript")
-
 @app.get("/")
 def read_root():
-    for p in [os.path.join(static_dir, "index.html"), os.path.join(frontend_dir, "index.html")]:
-        if os.path.exists(p):
-            return FileResponse(p)
-    return {"message": "Tighra Smart Boat Booking System API Online"}
+    return FileResponse(os.path.join(static_dir, "index.html"))
 
 @app.get("/login")
 def read_login():
-    login_path = os.path.join(static_dir, "login.html")
-    if os.path.exists(login_path):
-        return FileResponse(login_path)
-    return FileResponse(os.path.join(static_dir, "index.html"))
+    return FileResponse(os.path.join(static_dir, "login.html"))
 
 @app.get("/register")
 def read_register():
-    reg_path = os.path.join(static_dir, "register.html")
-    if os.path.exists(reg_path):
-        return FileResponse(reg_path)
-    return FileResponse(os.path.join(static_dir, "index.html"))
+    return FileResponse(os.path.join(static_dir, "register.html"))
 
 @app.get("/operator")
 def read_operator():
-    op_path = os.path.join(static_dir, "operator.html")
-    if os.path.exists(op_path):
-        return FileResponse(op_path)
-    return FileResponse(os.path.join(static_dir, "index.html"))
+    return FileResponse(os.path.join(static_dir, "operator.html"))
 
 @app.get("/admin")
 def read_admin():
-    adm_path = os.path.join(static_dir, "admin.html")
-    if os.path.exists(adm_path):
-        return FileResponse(adm_path)
-    return FileResponse(os.path.join(static_dir, "index.html"))
+    return FileResponse(os.path.join(static_dir, "admin.html"))
 
 @app.get(f"{settings.API_V1_STR}/health")
 def health_check():
     return {"status": "ok", "service": settings.PROJECT_NAME}
-
-if os.path.exists(static_dir):
-    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static_root")
-elif os.path.exists(frontend_dir):
-    app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend_root")
