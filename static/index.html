@@ -1,490 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tighra Dam Boating | MP Tourism Official Ticket Booking</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tighra Dam Boating | MP Tourism Official Ticket Booking</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="carferry-nav">
-        <div class="nav-brand" onclick="showTab('home')">
-            <i class="fa-solid fa-ship brand-icon"></i>
-            <span class="brand-name">Tighra<span class="brand-orange">Boats</span></span>
-        </div>
-        
-        <button class="mobile-toggle" id="mobileMenuToggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation">
-            <i class="fa-solid fa-bars"></i>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="brand">
+      <span class="brand-icon">⚓</span> Tighra<span class="highlight">Boats</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active" onclick="switchTab('fleet')">Fleet & Rides</a></li>
+      <li id="my-tickets-nav" style="display: none;"><a href="#" class="nav-link" onclick="switchTab('tickets')">My Tickets</a></li>
+      <li><a href="#showcase-3d" class="nav-link">3D Live Dam View</a></li>
+      <li><a href="#features" class="nav-link">Features</a></li>
+      <li><a href="#visitor-info" class="nav-link">Guidelines</a></li>
+      <li><a href="/operator" class="nav-link" target="_blank"><i class="fa-solid fa-qrcode"></i> Gate Scanner</a></li>
+      <li><a href="/admin" class="nav-link" target="_blank"><i class="fa-solid fa-chart-line"></i> Admin Console</a></li>
+      <li id="auth-buttons">
+        <a href="/login" class="btn btn-outline">Login</a>
+        <a href="/register" class="btn btn-primary">Register</a>
+      </li>
+      <li id="user-profile" style="display: none;">
+        <span id="user-display-name" style="font-weight: 700; color: var(--primary); margin-right: 0.5rem;"></span>
+        <button class="btn btn-outline" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- 3D Live Interactive Hero Section -->
+  <header class="hero-section" id="hero">
+    <!-- Dynamic 3D Background Layer -->
+    <div class="hero-bg-layer" id="hero-bg" style="background-image: url('/static/images/tighra_dam_aerial_wall.png');"></div>
+
+    <div class="hero-content" id="hero-card">
+      <div class="view-switcher-container">
+        <button class="view-btn active" id="btn-view-wall" onclick="switchHeroView('wall')">
+          <span class="pulse-dot"></span> 📸 Dam Wall Aerial View
         </button>
+        <button class="view-btn" id="btn-view-lake" onclick="switchHeroView('lake')">
+          <span class="pulse-dot"></span> 🚤 Boating Lake Panorama
+        </button>
+      </div>
 
-        <div class="nav-menu" id="navMenu">
-            <a href="#" class="menu-link active" id="navHomeLink" onclick="showTab('home'); closeMobileMenu();">Home</a>
-            <a href="#searchSection" class="menu-link" onclick="scrollToSection('searchSection'); closeMobileMenu();">Book Ride</a>
-            <a href="#fleetSection" class="menu-link" onclick="scrollToSection('fleetSection'); closeMobileMenu();">Boats & Rates</a>
-            <a href="#gallerySection" class="menu-link" onclick="scrollToSection('gallerySection'); closeMobileMenu();">Dam Gallery</a>
-            <a href="#" class="menu-link hidden" id="navAdminLink" onclick="showTab('adminPortal'); closeMobileMenu();"><i class="fa-solid fa-user-shield"></i> Admin Console</a>
+      <h1 class="hero-title">Ready to Begin Your <span class="highlight-orange">Journey</span>?</h1>
+      <p class="hero-subtitle">Experience seamless boat rides across Gwalior's beautiful Tighra Dam reservoir. Safe, reliable, and scenic journeys for families & tourists.</p>
+
+      <div class="hero-actions">
+        <a href="#fleet-section" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.05rem;"><i class="fa-solid fa-ticket"></i> Book Your Boat Ride</a>
+        <a href="#showcase-3d" class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.05rem;"><i class="fa-solid fa-vr-cardboard"></i> Explore 3D Dam Views</a>
+        <a href="/login" class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.05rem;"><i class="fa-solid fa-bolt"></i> Demo Login (Tourist)</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Floating Quick Booking Widget -->
+  <div class="quick-booking-container">
+    <div class="quick-booking-card">
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-ship"></i> Select Boat Category</label>
+        <select id="hero-boat-select" class="form-select">
+          <option value="all">All Boats & Rides</option>
+          <option value="Shikara">Shikara Cruise</option>
+          <option value="Speed Boat">Speed Boat</option>
+          <option value="Motor Boat">Group Motor Boat</option>
+          <option value="Paddle Boat">Paddle Boat</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-calendar"></i> Ride Date</label>
+        <input type="date" id="hero-date-input" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-clock"></i> Preferred Slot</label>
+        <select id="hero-slot-select" class="form-select">
+          <option value="all">Any Available Slot</option>
+          <option value="1">09:00 AM - 10:00 AM</option>
+          <option value="2">10:00 AM - 11:00 AM</option>
+          <option value="3">11:00 AM - 12:00 PM</option>
+          <option value="7">04:00 PM - 05:00 PM</option>
+          <option value="8">05:00 PM - 06:00 PM (Sunset)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label"><i class="fa-solid fa-users"></i> Passengers</label>
+        <input type="number" id="hero-passengers" class="form-input" min="1" max="10" value="1">
+      </div>
+
+      <div>
+        <button class="btn btn-primary btn-block" style="padding: 0.95rem; font-size: 1rem;" onclick="handleQuickSearch()"><i class="fa-solid fa-magnifying-glass"></i> Search & Book</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 4rem;">
+
+    <!-- 3D Drone Perspective Showcase -->
+    <section id="showcase-3d" style="margin-bottom: 5rem;">
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <div class="badge-pill" style="margin-bottom: 0.75rem;">
+          <span class="pulse-dot"></span> LIVE 3D PERSPECTIVE GALLERY
+        </div>
+        <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem;">Real Drone Views of Tighra Dam Gwalior</h2>
+        <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto;">Explore live aerial photography of the historic Tighra Dam masonry wall and vast reservoir waters</p>
+      </div>
+
+      <div class="showcase-3d-grid">
+        <div class="showcase-card" onclick="switchHeroView('wall')">
+          <img src="/static/images/tighra_dam_aerial_wall.png" alt="Tighra Dam Wall Drone Aerial View">
+          <div class="showcase-overlay">
+            <span style="font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em;">Masonry Dam Wall</span>
+            <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff;">Historic Tighra Dam Structure (Built 1916)</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 0.25rem;">Stretching over 1,341 meters along Sank River with lush green surroundings.</p>
+          </div>
         </div>
 
-        <div class="nav-actions-right" id="navActions">
-            <button class="btn btn-outline-light" id="navLoginBtn" onclick="showTab('login'); closeMobileMenu();"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
-            <button class="btn btn-orange" id="navRegisterBtn" onclick="showTab('register'); closeMobileMenu();"><i class="fa-solid fa-user-plus"></i> Register</button>
-            <div class="user-badge hidden" id="userBadge">
-                <i class="fa-solid fa-circle-user"></i>
-                <span id="badgeUserName">User</span>
-                <button class="btn-icon-light" title="Logout" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i></button>
-            </div>
+        <div class="showcase-card" onclick="switchHeroView('lake')">
+          <img src="/static/images/tighra_dam_lake_boats.png" alt="Tighra Dam Lake Boating Panorama View">
+          <div class="showcase-overlay">
+            <span style="font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em;">Reservoir Waters</span>
+            <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff;">Vast 19.8 sq km Boating Lake</h3>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 0.25rem;">Pristine blue waters perfect for speedboats, Shikara cruises, and paddle boats.</p>
+          </div>
         </div>
-    </nav>
+      </div>
+    </section>
 
-    <!-- Main Container -->
-    <main class="main-container">
-        <!-- Alert Notification Banner -->
-        <div class="alert-fixed-wrapper">
-            <div id="alertBox" class="alert-box hidden"></div>
-        </div>
-
-        <!-- ================= HOME TAB ================= -->
-        <div id="homeView" class="tab-content active">
-            <!-- Hero Section -->
-            <section class="carferry-hero-section">
-                <div class="carferry-hero-bg">
-                    <img src="assets/real_tighra_lake_boats.jpg" alt="Real Tighra Dam Reservoir" class="hero-bg-img">
-                    <div class="hero-dark-overlay"></div>
-                </div>
-
-                <div class="carferry-hero-content">
-                    <div class="pill-badge">
-                        <i class="fa-solid fa-landmark"></i> Official Waterways Ticket Booking Portal • Gwalior (M.P.)
-                    </div>
-                    
-                    <h1 class="hero-headline">
-                        Ready to Begin Your <span class="highlight-orange">Journey</span>?
-                    </h1>
-
-                    <p class="hero-subline">
-                        Experience seamless boat and ferry travel across Gwalior's beautiful Tighra Dam reservoir.<br>Safe, reliable, and scenic journeys.
-                    </p>
-
-                    <div class="hero-cta-buttons">
-                        <button class="btn btn-orange btn-lg" onclick="scrollToSection('searchSection')">
-                            Book Your Ride <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                        <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('fleetSection')">
-                            View Boats & Rates
-                        </button>
-                    </div>
-
-                    <div class="scroll-indicator" onclick="scrollToSection('searchSection')">
-                        <span>Scroll to explore</span>
-                        <i class="fa-solid fa-chevron-down bounce-arrow"></i>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Search & Payment Booking Section -->
-            <section class="booking-search-section" id="searchSection">
-                <div class="search-card-container">
-                    <div class="search-card-header">
-                        <div class="header-title">
-                            <i class="fa-solid fa-compass"></i>
-                            <h3>Select Your Journey, Time Slot & Payment Method</h3>
-                        </div>
-                        <span class="live-status"><i class="fa-solid fa-circle"></i> Live System Online</span>
-                    </div>
-
-                    <form class="interactive-form" onsubmit="handleBookingSubmit(event)">
-                        <div class="form-grid-4">
-                            <div class="input-block">
-                                <label><i class="fa-solid fa-ship"></i> Boat Category</label>
-                                <select id="bookBoatName" onchange="updatePriceCalculation()">
-                                    <option value="Speed Boat Express">Speed Boat Express (₹400 / seat)</option>
-                                    <option value="Family Paddle Boat">Family Paddle Boat (₹250 / seat)</option>
-                                    <option value="Tighra Dam Scenic Cruise">Tighra Dam Cruise (₹150 / seat)</option>
-                                </select>
-                            </div>
-
-                            <div class="input-block">
-                                <label><i class="fa-solid fa-calendar-days"></i> Booking Date</label>
-                                <input type="date" id="bookDate" required>
-                            </div>
-
-                            <div class="input-block">
-                                <label><i class="fa-solid fa-clock"></i> Time Slot</label>
-                                <select id="bookTimeSlot">
-                                    <option value="09:30 AM - 10:00 AM">09:30 AM - 10:00 AM</option>
-                                    <option value="11:30 AM - 12:00 PM">11:30 AM - 12:00 PM</option>
-                                    <option value="02:30 PM - 03:00 PM">02:30 PM - 03:00 PM</option>
-                                    <option value="04:30 PM - 05:00 PM">04:30 PM - 05:00 PM (Sunset)</option>
-                                </select>
-                            </div>
-
-                            <div class="input-block">
-                                <label><i class="fa-solid fa-users"></i> Passengers</label>
-                                <select id="bookPassengers" onchange="updatePriceCalculation()">
-                                    <option value="1">1 Passenger</option>
-                                    <option value="2">2 Passengers</option>
-                                    <option value="4">4 Passengers</option>
-                                    <option value="6">6 Passengers</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Payment Method Selector -->
-                        <div class="payment-selection-box">
-                            <label class="pay-title"><i class="fa-solid fa-credit-card"></i> Choose Instant Payment Gateway</label>
-                            <div class="payment-options">
-                                <label class="pay-chip active">
-                                    <input type="radio" name="payMethod" value="Razorpay (UPI / GooglePay)" checked>
-                                    <i class="fa-solid fa-mobile-screen-button"></i> Razorpay (UPI / GPay / PhonePe)
-                                </label>
-                                <label class="pay-chip">
-                                    <input type="radio" name="payMethod" value="Credit / Debit Card">
-                                    <i class="fa-solid fa-credit-card"></i> Credit / Debit Card
-                                </label>
-                                <label class="pay-chip">
-                                    <input type="radio" name="payMethod" value="NetBanking">
-                                    <i class="fa-solid fa-building-columns"></i> NetBanking
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="checkout-bar">
-                            <div class="total-calc">
-                                <span>Total Amount to Pay:</span>
-                                <strong id="calcTotalAmount">₹400</strong>
-                            </div>
-                            <button type="submit" class="btn btn-orange btn-lg" id="paySubmitBtn">
-                                <i class="fa-solid fa-lock"></i> Pay Now & Generate Valid QR Ticket
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-
-            <!-- Real Photos Gallery Section -->
-            <section class="real-gallery-section" id="gallerySection">
-                <div class="section-title">
-                    <span class="sub-tag">Authentic Gwalior Destination</span>
-                    <h2>Tighra Dam Real Reservoir Gallery</h2>
-                    <p>Actual high-definition photography of Tighra Dam waters, spillway embankment, and boating activities.</p>
-                </div>
-
-                <div class="gallery-grid">
-                    <div class="gallery-card">
-                        <div class="img-frame">
-                            <img src="assets/real_tighra_lake_boats.jpg" alt="Tighra Reservoir Boating" class="gallery-img">
-                        </div>
-                        <div class="card-caption">
-                            <h4><i class="fa-solid fa-water"></i> Tighra Lake & Boating Fleet</h4>
-                            <p>Real aerial view of tourists enjoying motorboat rides across calm turquoise waters.</p>
-                        </div>
-                    </div>
-
-                    <div class="gallery-card">
-                        <div class="img-frame">
-                            <img src="assets/real_tighra_dam_wall.jpg" alt="Tighra Dam Wall Embankment" class="gallery-img">
-                        </div>
-                        <div class="card-caption">
-                            <h4><i class="fa-solid fa-landmark"></i> Curved Dam Wall Embankment</h4>
-                            <p>Real photograph showing the long historic masonry dam wall curving along the reservoir.</p>
-                        </div>
-                    </div>
-
-                    <div class="gallery-card">
-                        <div class="img-frame">
-                            <img src="assets/real_tighra_dam_spillway.jpg" alt="Tighra Dam Spillway Sluice" class="gallery-img">
-                        </div>
-                        <div class="card-caption">
-                            <h4><i class="fa-solid fa-sitemap"></i> Dam Spillway & Surrounding Forest</h4>
-                            <p>Real aerial shot of the water release sluice channels and surrounding lush green forest.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Fleet & Rates Showcase -->
-            <section class="fleet-tariff-section" id="fleetSection">
-                <div class="section-title">
-                    <span class="sub-tag">Boating Tariff</span>
-                    <h2>Choose Your Ride & View Rates</h2>
-                    <p>Select from high-speed thrill boats, family paddle rides, or group dam cruises.</p>
-                </div>
-
-                <div class="fleet-cards-grid">
-                    <div class="tariff-box">
-                        <div class="badge-tag speed-bg">Speed Ride</div>
-                        <h3>Speed Boat Express</h3>
-                        <div class="price-line">
-                            <span class="currency">₹</span><span class="val">400</span><span class="unit"> / seat</span>
-                        </div>
-                        <ul class="features-list">
-                            <li><i class="fa-solid fa-users"></i> 6 Passengers Capacity</li>
-                            <li><i class="fa-solid fa-clock"></i> 15 Minutes Thrill Ride</li>
-                            <li><i class="fa-solid fa-life-ring"></i> Safety Life Jacket Included</li>
-                            <li><i class="fa-solid fa-qrcode"></i> Instant Valid QR Ticket Issued</li>
-                        </ul>
-                        <button class="btn btn-orange btn-block" onclick="selectBoat('Speed Boat Express')">Select & Book</button>
-                    </div>
-
-                    <div class="tariff-box highlight-box">
-                        <div class="badge-tag family-bg">Popular Choice</div>
-                        <h3>Family Paddle Boat</h3>
-                        <div class="price-line">
-                            <span class="currency">₹</span><span class="val">250</span><span class="unit"> / seat</span>
-                        </div>
-                        <ul class="features-list">
-                            <li><i class="fa-solid fa-users"></i> 4 Passengers Capacity</li>
-                            <li><i class="fa-solid fa-clock"></i> 30 Minutes Self-Paddle</li>
-                            <li><i class="fa-solid fa-life-ring"></i> Safety Life Jacket Included</li>
-                            <li><i class="fa-solid fa-qrcode"></i> Instant Valid QR Ticket Issued</li>
-                        </ul>
-                        <button class="btn btn-orange btn-block" onclick="selectBoat('Family Paddle Boat')">Select & Book</button>
-                    </div>
-
-                    <div class="tariff-box">
-                        <div class="badge-tag cruise-bg">Group Tour</div>
-                        <h3>Tighra Dam Cruise</h3>
-                        <div class="price-line">
-                            <span class="currency">₹</span><span class="val">150</span><span class="unit"> / seat</span>
-                        </div>
-                        <ul class="features-list">
-                            <li><i class="fa-solid fa-users"></i> 30 Passengers Capacity</li>
-                            <li><i class="fa-solid fa-clock"></i> 45 Minutes Scenic Cruise</li>
-                            <li><i class="fa-solid fa-life-ring"></i> Safety Life Jacket Included</li>
-                            <li><i class="fa-solid fa-qrcode"></i> Instant Valid QR Ticket Issued</li>
-                        </ul>
-                        <button class="btn btn-orange btn-block" onclick="selectBoat('Tighra Dam Scenic Cruise')">Select & Book</button>
-                    </div>
-                </div>
-            </section>
-
-            </div>
-
-        <!-- ================= LOGIN TAB ================= -->
-        <div id="loginView" class="auth-wrapper tab-content">
-            <div class="auth-card">
-                <div class="card-header">
-                    <h2><i class="fa-solid fa-lock"></i> Account Login</h2>
-                    <p>Enter your credentials to access tickets & booking portal</p>
-                </div>
-                <form id="loginForm" onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label for="loginEmail"><i class="fa-solid fa-envelope"></i> Email Address</label>
-                        <input type="email" id="loginEmail" placeholder="e.g. tourist@tighra.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword"><i class="fa-solid fa-key"></i> Password</label>
-                        <input type="password" id="loginPassword" placeholder="••••••••" required>
-                    </div>
-                    <button type="submit" class="btn btn-orange btn-block" id="loginSubmitBtn">
-                        <span>Login to Account</span> <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                </form>
-
-
-
-                <div class="card-footer">
-                    <span>Don't have an account?</span>
-                    <a href="#" onclick="showTab('register')">Register Now</a>
-                </div>
-            </div>
+    <!-- Fleet Showcase Tab -->
+    <section id="tab-fleet">
+      <div id="fleet-section" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.25rem;">Tighra Dam Boat Fleet</h2>
+          <p style="color: var(--text-muted);">Choose from luxury Shikaras, high-speed motorboats, and self-driven paddle boats</p>
         </div>
 
-        <!-- ================= REGISTER TAB ================= -->
-        <div id="registerView" class="auth-wrapper tab-content">
-            <div class="auth-card">
-                <div class="card-header">
-                    <h2><i class="fa-solid fa-user-plus"></i> Create Account</h2>
-                    <p>Register to start instant boat ride bookings</p>
-                </div>
-                <form id="registerForm" onsubmit="handleRegister(event)">
-                    <div class="form-group">
-                        <label for="regFullName"><i class="fa-solid fa-id-card"></i> Full Name</label>
-                        <input type="text" id="regFullName" placeholder="e.g. Rahul Sharma" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="regEmail"><i class="fa-solid fa-envelope"></i> Email Address</label>
-                        <input type="email" id="regEmail" placeholder="name@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="regPhone"><i class="fa-solid fa-phone"></i> Phone Number</label>
-                        <input type="tel" id="regPhone" placeholder="+91 9876543210" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="regPassword"><i class="fa-solid fa-lock"></i> Password</label>
-                        <input type="password" id="regPassword" placeholder="Min. 6 characters" required>
-                    </div>
-                    <button type="submit" class="btn btn-orange btn-block" id="regSubmitBtn">
-                        <span>Create Account</span> <i class="fa-solid fa-check"></i>
-                    </button>
-                </form>
-                <div class="card-footer">
-                    <span>Already registered?</span>
-                    <a href="#" onclick="showTab('login')">Sign In</a>
-                </div>
-            </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="btn btn-outline" onclick="filterBoats('all')">All</button>
+          <button class="btn btn-outline" onclick="filterBoats('Shikara')">Shikara</button>
+          <button class="btn btn-outline" onclick="filterBoats('Speed Boat')">Speed Boat</button>
+          <button class="btn btn-outline" onclick="filterBoats('Motor Boat')">Motor Boat</button>
+          <button class="btn btn-outline" onclick="filterBoats('Paddle Boat')">Paddle Boat</button>
+        </div>
+      </div>
+
+      <div id="boats-grid" class="grid">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </section>
+
+    <!-- My Tickets Tab -->
+    <section id="tab-tickets" style="display: none;">
+      <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">My Booked Digital Tickets</h2>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">Manage your active QR tickets, view details, or process cancellations</p>
+      <div id="my-tickets-grid" class="grid">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Why Choose Us Features Grid -->
+    <section id="features" style="margin-top: 5rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem;">Why Choose Tighra Dam Boating</h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Modern digital infrastructure ensuring safety, convenience, and zero queue delays</p>
+      </div>
+
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+        <div class="card feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-qrcode"></i></div>
+          <h3 class="feature-title">100% Cashless QR Entry</h3>
+          <p class="feature-desc">Scan your digital ticket QR code directly at gate entry without waiting in physical cash queues.</p>
         </div>
 
-        <!-- ================= DASHBOARD / MY TICKETS TAB ================= -->
-        <div id="dashboardView" class="tab-content">
-            <div class="dashboard-wrapper">
-                <div class="dashboard-card">
-                    <div class="dash-header">
-                        <div class="user-meta">
-                            <div class="avatar" id="dashAvatar">U</div>
-                            <div>
-                                <h3 id="dashName">User Name</h3>
-                                <span class="role-badge" id="dashRole">Tourist</span>
-                                <span class="email-sub" id="dashEmail">user@example.com</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-outline-dark btn-sm" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout</button>
-                    </div>
-
-                    <div class="my-tickets-section">
-                        <h3><i class="fa-solid fa-ticket"></i> My Booked Digital QR Tickets</h3>
-                        <div id="ticketsListContainer" class="tickets-list-grid">
-                            <p class="empty-msg">Fetching your booked tickets from database...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="card feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(2, 132, 199, 0.15) 100%); border-color: rgba(16, 185, 129, 0.3); color: var(--success);"><i class="fa-solid fa-life-ring"></i></div>
+          <h3 class="feature-title">Certified Life Jackets</h3>
+          <p class="feature-desc">Mandatory life safety equipment for all passengers with trained lifeguards on standby.</p>
         </div>
 
-        <!-- ================= ADMIN MANAGEMENT PORTAL ================= -->
-        <div id="adminPortalView" class="tab-content">
-            <div class="admin-dashboard-container">
-                <div class="admin-header-bar">
-                    <div>
-                        <h2><i class="fa-solid fa-user-shield"></i> System Admin Management Portal</h2>
-                        <p>Real-time revenue metrics, system bookings, fleet management, and registered users.</p>
-                    </div>
-                    <button class="btn btn-outline-light btn-sm" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout Admin</button>
-                </div>
-
-                <!-- Admin Metrics Row -->
-                <div class="admin-stats-grid">
-                    <div class="stat-box">
-                        <i class="fa-solid fa-indian-rupee-sign stat-icon"></i>
-                        <div>
-                            <span class="stat-label">Total System Revenue</span>
-                            <strong id="statRevenue">₹0.00</strong>
-                        </div>
-                    </div>
-                    <div class="stat-box">
-                        <i class="fa-solid fa-ticket stat-icon"></i>
-                        <div>
-                            <span class="stat-label">Total Bookings</span>
-                            <strong id="statBookings">0</strong>
-                        </div>
-                    </div>
-                    <div class="stat-box">
-                        <i class="fa-solid fa-users stat-icon"></i>
-                        <div>
-                            <span class="stat-label">Registered Users</span>
-                            <strong id="statUsers">0</strong>
-                        </div>
-                    </div>
-                    <div class="stat-box">
-                        <i class="fa-solid fa-ship stat-icon"></i>
-                        <div>
-                            <span class="stat-label">Active Boats</span>
-                            <strong id="statBoats">0</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Admin Tabs / Tables -->
-                <div class="admin-content-box">
-                    <h3><i class="fa-solid fa-list-check"></i> System Bookings Database</h3>
-                    <div class="table-responsive">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Ticket #</th>
-                                    <th>Boat Name</th>
-                                    <th>Date</th>
-                                    <th>Time Slot</th>
-                                    <th>Passengers</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminBookingsTable">
-                                <tr><td colspan="8" class="text-center">Loading system bookings...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div class="card feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%); border-color: rgba(99, 102, 241, 0.3); color: #818cf8;"><i class="fa-solid fa-clock"></i></div>
+          <h3 class="feature-title">Guaranteed Time Slots</h3>
+          <p class="feature-desc">Book your preferred hour slot in advance to ensure guaranteed seat availability.</p>
         </div>
-    </main>
 
-    <!-- TICKET GENERATED MODAL -->
-    <div id="ticketModal" class="ticket-modal-overlay hidden">
-        <div class="ticket-modal-card">
-            <div class="modal-header">
-                <i class="fa-solid fa-circle-check text-success"></i>
-                <div>
-                    <h2>Payment Successful & QR Ticket Generated!</h2>
-                    <p>Your ticket is confirmed and stored in the database.</p>
-                </div>
-                <button class="close-btn" onclick="closeTicketModal()">&times;</button>
-            </div>
-            
-            <div class="ticket-body" id="printableTicket">
-                <div class="ticket-pass-header">
-                    <div class="pass-brand"><i class="fa-solid fa-ship"></i> Tighra Dam Waterways</div>
-                    <div class="pass-num" id="modalTicketNum">TIGH-XXXXXX</div>
-                </div>
-
-                <div class="ticket-flex">
-                    <div class="qr-box">
-                        <img id="modalQRImage" src="" alt="Valid QR Code" class="qr-img">
-                        <span class="qr-status-badge">SCANNABLE QR PASS</span>
-                    </div>
-                    
-                    <div class="pass-details">
-                        <h4 id="modalBoatName">Speed Boat Express</h4>
-                        <p><strong>Date:</strong> <span id="modalDate">Today</span></p>
-                        <p><strong>Slot:</strong> <span id="modalSlot">04:30 PM</span></p>
-                        <p><strong>Passengers:</strong> <span id="modalPassengers">2 Persons</span></p>
-                        <p><strong>Total Amount Paid:</strong> <span id="modalAmount">₹800.00</span></p>
-                        <p><strong>Status:</strong> <span class="badge-active">VALID & ACTIVE</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-outline-dark" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Ticket</button>
-                <button class="btn btn-orange" onclick="closeTicketModal(); showTab('dashboard');"><i class="fa-solid fa-ticket"></i> View All My Tickets</button>
-            </div>
+        <div class="card feature-card">
+          <div class="feature-icon" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(239, 68, 68, 0.15) 100%); border-color: rgba(245, 158, 11, 0.3); color: var(--warning);"><i class="fa-solid fa-rotate-left"></i></div>
+          <h3 class="feature-title">Instant Refund Support</h3>
+          <p class="feature-desc">Easy one-click cancellations and instant refunds in case of adverse weather alerts.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- Visitor Guidelines & Hours -->
+    <section id="visitor-info" style="margin-top: 5rem;">
+      <div class="card" style="background: linear-gradient(135deg, #1c2541 0%, #0b132b 100%); border: 1px solid var(--primary);">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+          <div>
+            <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary);"><i class="fa-solid fa-circle-info"></i> Visitor Guidelines</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; color: var(--text-muted); font-size: 0.95rem;">
+              <li><i class="fa-solid fa-circle-check" style="color: var(--success); margin-right: 0.5rem;"></i> Please arrive 15 minutes before your scheduled slot.</li>
+              <li><i class="fa-solid fa-circle-check" style="color: var(--success); margin-right: 0.5rem;"></i> Life jackets must be worn at all times while on water.</li>
+              <li><i class="fa-solid fa-circle-check" style="color: var(--success); margin-right: 0.5rem;"></i> Digital QR ticket must be presented on mobile or printout.</li>
+              <li><i class="fa-solid fa-circle-check" style="color: var(--success); margin-right: 0.5rem;"></i> Children below 5 years enjoy free entry with guardian.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary);"><i class="fa-solid fa-location-dot"></i> Location & Operating Hours</h3>
+            <p style="color: var(--text-muted); margin-bottom: 0.75rem;"><strong>Location:</strong> Tighra Dam Reservoir, Sank River, Gwalior District, Madhya Pradesh (23 km from City Center).</p>
+            <p style="color: var(--text-muted); margin-bottom: 0.75rem;"><strong>Operating Hours:</strong> 09:00 AM – 06:00 PM (Daily All Week)</p>
+            <p style="color: var(--text-muted);"><strong>Helpline:</strong> +91 751 240 1000 | support@tighraboats.gov.in</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="booking-modal-title">Book Boat Ride</h3>
+        <button class="close-btn" onclick="closeModal('booking-modal')">&times;</button>
+      </div>
+
+      <form id="booking-form" onsubmit="handleBookingSubmit(event)">
+        <input type="hidden" id="book-boat-id">
+
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Selected Boat</label>
+          <input type="text" id="book-boat-name" class="form-input" readonly>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Select Date</label>
+          <input type="date" id="book-date" class="form-input" required onchange="loadAvailableSlots()">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Select Time Slot</label>
+          <select id="book-slot-id" class="form-select" required onchange="calculateTotalPrice()">
+            <option value="">-- Choose Time Slot --</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label">Number of Passengers</label>
+          <input type="number" id="book-passengers" class="form-input" min="1" max="10" value="1" required onchange="calculateTotalPrice()" onkeyup="calculateTotalPrice()">
+        </div>
+
+        <div style="background: rgba(255, 107, 0, 0.1); border: 1px solid rgba(255, 107, 0, 0.3); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Rate per passenger:</span>
+            <span id="book-rate-display" style="font-weight: 700; color: var(--primary);">₹0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: 800; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 0.5rem;">
+            <span>Total Payable Amount:</span>
+            <span id="book-total-display" style="color: var(--success);">₹0</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" style="padding: 1rem; font-size: 1.05rem;"><i class="fa-solid fa-lock"></i> Proceed to Pay (Razorpay Gateway)</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Real Razorpay Tourist Payment Drawer Modal -->
+  <div id="payment-modal" class="modal-backdrop">
+    <div class="modal" style="border: 2px solid var(--primary); max-width: 480px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="font-size: 1.8rem; color: var(--primary);"><i class="fa-solid fa-shield-halved"></i></div>
+          <div>
+            <h4 style="font-size: 1.1rem; font-weight: 800;">Razorpay Secure Payment</h4>
+            <p style="font-size: 0.75rem; color: var(--text-muted);">MP Tourism - Tighra Dam Boating</p>
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeModal('payment-modal')">&times;</button>
+      </div>
+
+      <div style="background: #0b132b; padding: 1rem; border-radius: 12px; margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.9rem;">
+          <span style="color: var(--text-muted);">Order Amount:</span>
+          <strong id="pay-modal-amount" style="color: var(--success); font-size: 1.25rem;">₹0</strong>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-lock"></i> 256-Bit SSL Encrypted Payment</div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1.25rem;">
+        <label class="form-label">Select Payment Option</label>
+        <select id="payment-method-select" class="form-select" onchange="togglePaymentInputs()">
+          <option value="upi">UPI (GPay / PhonePe / Paytm / BHIM)</option>
+          <option value="card">Credit / Debit Card</option>
+          <option value="netbanking">Net Banking</option>
+        </select>
+      </div>
+
+      <!-- UPI Payment Details -->
+      <div id="pay-input-upi" class="pay-input-group" style="margin-bottom: 1.25rem;">
+        <label class="form-label">Enter VPA / UPI ID</label>
+        <input type="text" id="pay-upi-id" class="form-input" placeholder="e.g. mobileNumber@upi or user@okhdfcbank" value="tourist@upi">
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">A payment request will be sent to your UPI App.</p>
+      </div>
+
+      <!-- Card Payment Details -->
+      <div id="pay-input-card" class="pay-input-group" style="display: none; margin-bottom: 1.25rem;">
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Card Number</label>
+          <input type="text" class="form-input" placeholder="4532 •••• •••• 8910" value="4532 8900 1234 8910">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="form-label">Expiry (MM/YY)</label>
+            <input type="text" class="form-input" placeholder="08/28" value="12/28">
+          </div>
+          <div>
+            <label class="form-label">CVV</label>
+            <input type="password" class="form-input" placeholder="•••" value="888">
+          </div>
+        </div>
+      </div>
+
+      <!-- Net Banking Bank Details -->
+      <div id="pay-input-netbanking" class="pay-input-group" style="display: none; margin-bottom: 1.25rem;">
+        <label class="form-label">Select Your Bank</label>
+        <select class="form-select">
+          <option value="SBI">State Bank of India (SBI)</option>
+          <option value="HDFC">HDFC Bank</option>
+          <option value="ICICI">ICICI Bank</option>
+          <option value="AXIS">Axis Bank</option>
+          <option value="PNB">Punjab National Bank</option>
+        </select>
+      </div>
+
+      <button onclick="processPaymentSuccess()" class="btn btn-success btn-block" style="padding: 1rem; font-size: 1.1rem;"><i class="fa-solid fa-check-circle"></i> Complete Payment & Generate Ticket</button>
+    </div>
+  </div>
+
+  <!-- Digital Ticket Modal -->
+  <div id="ticket-modal" class="modal-backdrop">
+    <div class="modal" style="max-width: 460px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Digital Boarding Pass</h3>
+        <button class="close-btn" onclick="closeModal('ticket-modal')">&times;</button>
+      </div>
+
+      <div id="ticket-modal-content">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+        <button class="btn btn-outline btn-block" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Pass</button>
+        <button class="btn btn-primary btn-block" onclick="closeModal('ticket-modal')">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modals -->
+  <div id="login-modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Login to Account</h3>
+        <button class="close-btn" onclick="closeModal('login-modal')">&times;</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="login-email" class="form-input" required placeholder="tourist@example.com">
+        </div>
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label">Password</label>
+          <input type="password" id="login-password" class="form-input" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="padding: 0.9rem;">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="register-modal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Tourist Account</h3>
+        <button class="close-btn" onclick="closeModal('register-modal')">&times;</button>
+      </div>
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="reg-name" class="form-input" required placeholder="Anand Sharma">
+        </div>
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="reg-email" class="form-input" required placeholder="tourist@example.com">
+        </div>
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" id="reg-phone" class="form-input" required placeholder="+91 98765 43210">
+        </div>
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label">Password</label>
+          <input type="password" id="reg-password" class="form-input" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="padding: 0.9rem;">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">⚓ Tighra<span style="color: var(--primary);">Boats</span></div>
+        <p class="footer-text">Official digital ticket reservation system for Tighra Dam boating services. Managed under MP Tourism Development Corporation, Gwalior.</p>
+      </div>
+
+      <div>
+        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: #fff;">Quick Navigation</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+          <li><a href="#fleet-section" style="color: inherit; text-decoration: none;">Boat Fleet & Rates</a></li>
+          <li><a href="#showcase-3d" style="color: inherit; text-decoration: none;">3D Dam Drone Views</a></li>
+          <li><a href="#features" style="color: inherit; text-decoration: none;">Safety Standards</a></li>
+          <li><a href="#visitor-info" style="color: inherit; text-decoration: none;">Visitor Guidelines</a></li>
+          <li><a href="/operator" target="_blank" style="color: inherit; text-decoration: none;">Gate Operator Scanner</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: #fff;">Helpline & Support</h4>
+        <p class="footer-text"><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 0.5rem;"></i> +91 751 240 1000</p>
+        <p class="footer-text" style="margin-top: 0.5rem;"><i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 0.5rem;"></i> support@tighraboats.gov.in</p>
+        <p class="footer-text" style="margin-top: 0.5rem;"><i class="fa-solid fa-location-dot" style="color: var(--primary); margin-right: 0.5rem;"></i> Tighra Dam, Gwalior, MP 474010</p>
+      </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <i class="fa-solid fa-ship"></i> Tighra Dam Waterways & Boating Division
-            </div>
-            <p>© 2026 Tighra Dam Tourism Department, District Administration Gwalior (M.P.). All rights reserved.</p>
-            <div class="footer-staff-link">
-                <a href="#" onclick="showTab('login')">Staff Sign In</a> • 
-                <a href="/operator" target="_blank">Gate QR Verification</a>
-            </div>
-        </div>
-    </footer>
+    <div style="text-align: center; border-top: 1px solid var(--card-border); padding-top: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+      <p>&copy; 2026 Tighra Smart Boat Booking System | MP Tourism Development Corporation</p>
+    </div>
+  </footer>
 
-    <script src="app.js"></script>
+  <script src="/static/js/app.js"></script>
 </body>
 </html>

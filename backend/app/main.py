@@ -72,54 +72,58 @@ if os.path.exists(os.path.join(static_dir, "js")):
 
 @app.get("/style.css")
 def get_style_css():
-    for p in [os.path.join(api_dir, "style.css"), os.path.join(frontend_dir, "style.css"), os.path.join(static_dir, "css", "style.css")]:
+    for p in [os.path.join(static_dir, "css", "style.css"), os.path.join(frontend_dir, "style.css"), os.path.join(api_dir, "style.css")]:
         if os.path.exists(p):
             return FileResponse(p, media_type="text/css")
     return FileResponse(os.path.join(static_dir, "css", "style.css"), media_type="text/css")
 
 @app.get("/app.js")
 def get_app_js():
-    for p in [os.path.join(api_dir, "app.js"), os.path.join(frontend_dir, "app.js"), os.path.join(static_dir, "js", "app.js")]:
+    for p in [os.path.join(static_dir, "js", "app.js"), os.path.join(frontend_dir, "app.js"), os.path.join(api_dir, "app.js")]:
         if os.path.exists(p):
             return FileResponse(p, media_type="application/javascript")
     return FileResponse(os.path.join(static_dir, "js", "app.js"), media_type="application/javascript")
 
 @app.get("/")
 def read_root():
-    for p in [os.path.join(frontend_dir, "index.html"), os.path.join(static_dir, "index.html")]:
+    for p in [os.path.join(static_dir, "index.html"), os.path.join(frontend_dir, "index.html")]:
         if os.path.exists(p):
             return FileResponse(p)
     return {"message": "Tighra Smart Boat Booking System API Online"}
 
 @app.get("/login")
 def read_login():
-    if os.path.exists(os.path.join(frontend_dir, "index.html")):
-        return FileResponse(os.path.join(frontend_dir, "index.html"))
-    return FileResponse(os.path.join(static_dir, "login.html"))
+    login_path = os.path.join(static_dir, "login.html")
+    if os.path.exists(login_path):
+        return FileResponse(login_path)
+    return FileResponse(os.path.join(static_dir, "index.html"))
 
 @app.get("/register")
 def read_register():
-    if os.path.exists(os.path.join(frontend_dir, "index.html")):
-        return FileResponse(os.path.join(frontend_dir, "index.html"))
-    return FileResponse(os.path.join(static_dir, "register.html"))
+    reg_path = os.path.join(static_dir, "register.html")
+    if os.path.exists(reg_path):
+        return FileResponse(reg_path)
+    return FileResponse(os.path.join(static_dir, "index.html"))
 
 @app.get("/operator")
 def read_operator():
     op_path = os.path.join(static_dir, "operator.html")
     if os.path.exists(op_path):
         return FileResponse(op_path)
-    return FileResponse(os.path.join(frontend_dir, "index.html"))
+    return FileResponse(os.path.join(static_dir, "index.html"))
 
 @app.get("/admin")
 def read_admin():
     adm_path = os.path.join(static_dir, "admin.html")
     if os.path.exists(adm_path):
         return FileResponse(adm_path)
-    return FileResponse(os.path.join(frontend_dir, "index.html"))
+    return FileResponse(os.path.join(static_dir, "index.html"))
 
 @app.get(f"{settings.API_V1_STR}/health")
 def health_check():
     return {"status": "ok", "service": settings.PROJECT_NAME}
 
-if os.path.exists(frontend_dir):
+if os.path.exists(static_dir):
+    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static_root")
+elif os.path.exists(frontend_dir):
     app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend_root")
