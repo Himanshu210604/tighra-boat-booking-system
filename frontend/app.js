@@ -21,6 +21,20 @@ document.addEventListener("DOMContentLoaded", () => {
     updatePriceCalculation();
 });
 
+function toggleMobileMenu() {
+    const navMenu = document.getElementById("navMenu");
+    const navActions = document.getElementById("navActions");
+    if (navMenu) navMenu.classList.toggle("mobile-open");
+    if (navActions) navActions.classList.toggle("mobile-open");
+}
+
+function closeMobileMenu() {
+    const navMenu = document.getElementById("navMenu");
+    const navActions = document.getElementById("navActions");
+    if (navMenu) navMenu.classList.remove("mobile-open");
+    if (navActions) navActions.classList.remove("mobile-open");
+}
+
 function showTab(tabName) {
     document.querySelectorAll(".tab-content").forEach(tab => {
         tab.classList.remove("active");

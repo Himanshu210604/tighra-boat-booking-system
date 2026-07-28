@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tighra Dam Smart Boat Booking - Official Waterways</title>
+    <title>Tighra Dam Boating | MP Tourism Official Ticket Booking</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,18 +21,21 @@
             <span class="brand-name">Tighra<span class="brand-orange">Boats</span></span>
         </div>
         
-        <div class="nav-menu">
-            <a href="#" class="menu-link active" id="navHomeLink" onclick="showTab('home')">Home</a>
-            <a href="#searchSection" class="menu-link" onclick="scrollToSection('searchSection')">Book Ride</a>
-            <a href="#fleetSection" class="menu-link" onclick="scrollToSection('fleetSection')">Boats & Rates</a>
-            <a href="#gallerySection" class="menu-link" onclick="scrollToSection('gallerySection')">Real Gallery</a>
-            <a href="#verifySection" class="menu-link" onclick="scrollToSection('verifySection')">Staff Scanner</a>
-            <a href="#" class="menu-link hidden" id="navAdminLink" onclick="showTab('adminPortal')"><i class="fa-solid fa-user-shield"></i> Admin Portal</a>
+        <button class="mobile-toggle" id="mobileMenuToggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="nav-menu" id="navMenu">
+            <a href="#" class="menu-link active" id="navHomeLink" onclick="showTab('home'); closeMobileMenu();">Home</a>
+            <a href="#searchSection" class="menu-link" onclick="scrollToSection('searchSection'); closeMobileMenu();">Book Ride</a>
+            <a href="#fleetSection" class="menu-link" onclick="scrollToSection('fleetSection'); closeMobileMenu();">Boats & Rates</a>
+            <a href="#gallerySection" class="menu-link" onclick="scrollToSection('gallerySection'); closeMobileMenu();">Dam Gallery</a>
+            <a href="#" class="menu-link hidden" id="navAdminLink" onclick="showTab('adminPortal'); closeMobileMenu();"><i class="fa-solid fa-user-shield"></i> Admin Console</a>
         </div>
 
         <div class="nav-actions-right" id="navActions">
-            <button class="btn btn-outline-light" id="navLoginBtn" onclick="showTab('login')"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
-            <button class="btn btn-orange" id="navRegisterBtn" onclick="showTab('register')"><i class="fa-solid fa-user-plus"></i> Register</button>
+            <button class="btn btn-outline-light" id="navLoginBtn" onclick="showTab('login'); closeMobileMenu();"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+            <button class="btn btn-orange" id="navRegisterBtn" onclick="showTab('register'); closeMobileMenu();"><i class="fa-solid fa-user-plus"></i> Register</button>
             <div class="user-badge hidden" id="userBadge">
                 <i class="fa-solid fa-circle-user"></i>
                 <span id="badgeUserName">User</span>
@@ -59,7 +62,7 @@
 
                 <div class="carferry-hero-content">
                     <div class="pill-badge">
-                        <i class="fa-solid fa-briefcase"></i> Gwalior's Premier Waterway Service
+                        <i class="fa-solid fa-landmark"></i> Official Waterways Ticket Booking Portal • Gwalior (M.P.)
                     </div>
                     
                     <h1 class="hero-headline">
@@ -263,24 +266,7 @@
                 </div>
             </section>
 
-            <!-- Operator Ticket Verification Section -->
-            <section class="verify-section-block" id="verifySection">
-                <div class="verify-card">
-                    <div class="verify-header">
-                        <i class="fa-solid fa-qrcode"></i>
-                        <div>
-                            <h3>Staff & Boat Operator Ticket Verifier</h3>
-                            <p>Enter or scan QR Ticket Number to validate entry at the jetty gate.</p>
-                        </div>
-                    </div>
-                    <form class="verify-form" onsubmit="handleVerifyQR(event)">
-                        <input type="text" id="verifyTicketNum" placeholder="e.g. TIGH-8A4F99" required>
-                        <button type="submit" class="btn btn-orange"><i class="fa-solid fa-shield-check"></i> Validate Ticket</button>
-                    </form>
-                    <div id="verifyResult" class="verify-result-box hidden"></div>
-                </div>
-            </section>
-        </div>
+            </div>
 
         <!-- ================= LOGIN TAB ================= -->
         <div id="loginView" class="auth-wrapper tab-content">
@@ -303,20 +289,7 @@
                     </button>
                 </form>
 
-                <div class="demo-acc-box">
-                    <p class="demo-title"><i class="fa-solid fa-bolt"></i> Click to Auto-fill Demo Accounts:</p>
-                    <div class="demo-chips">
-                        <button class="chip" onclick="fillDemo('admin@tighra.com', 'AdminPassword123!')">
-                            <i class="fa-solid fa-user-shield"></i> Admin Login
-                        </button>
-                        <button class="chip" onclick="fillDemo('tourist@tighra.com', 'TouristPassword123!')">
-                            <i class="fa-solid fa-user"></i> Tourist
-                        </button>
-                        <button class="chip" onclick="fillDemo('operator@tighra.com', 'OperatorPassword123!')">
-                            <i class="fa-solid fa-compass"></i> Operator
-                        </button>
-                    </div>
-                </div>
+
 
                 <div class="card-footer">
                     <span>Don't have an account?</span>
@@ -502,9 +475,13 @@
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <i class="fa-solid fa-ship"></i> Tighra Dam Waterways Portal
+                <i class="fa-solid fa-ship"></i> Tighra Dam Waterways & Boating Division
             </div>
-            <p>© 2026 Tighra Dam Tourism & Waterways Department, Gwalior (M.P.). All rights reserved.</p>
+            <p>© 2026 Tighra Dam Tourism Department, District Administration Gwalior (M.P.). All rights reserved.</p>
+            <div class="footer-staff-link">
+                <a href="#" onclick="showTab('login')">Staff Sign In</a> • 
+                <a href="/operator" target="_blank">Gate QR Verification</a>
+            </div>
         </div>
     </footer>
 

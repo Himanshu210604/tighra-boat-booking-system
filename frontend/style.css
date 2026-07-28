@@ -1055,3 +1055,182 @@ body {
     text-align: center !important;
 }
 
+.mobile-toggle {
+    display: none;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 1.3rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+}
+
+.mobile-toggle:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: var(--primary-orange);
+}
+
+.footer-staff-link {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.footer-staff-link a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-staff-link a:hover {
+    color: var(--primary-orange);
+}
+
+/* Responsive Styles for Phones and Laptops */
+@media (max-width: 992px) {
+    .carferry-nav {
+        padding: 1.2rem 2rem;
+    }
+
+    .carferry-hero-section {
+        padding: 8rem 2rem 5rem 2rem;
+    }
+
+    .form-grid-4 {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+    }
+
+    .fleet-cards-grid, .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .carferry-nav {
+        padding: 1rem 1.25rem;
+        position: fixed;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 1.5rem 1.5rem 1rem 1.5rem;
+        gap: 1.2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-menu.mobile-open {
+        display: flex !important;
+    }
+
+    .nav-actions-right {
+        display: none;
+        position: absolute;
+        top: calc(100% + 180px);
+        left: 0;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        padding: 0 1.5rem 1.5rem 1.5rem;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .nav-actions-right.mobile-open {
+        display: flex !important;
+    }
+
+    .nav-actions-right .btn {
+        width: 100%;
+    }
+
+    .hero-headline {
+        font-size: 2.1rem;
+        line-height: 1.25;
+    }
+
+    .hero-subline {
+        font-size: 1rem;
+    }
+
+    .hero-cta-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-cta-buttons .btn {
+        width: 100%;
+    }
+
+    .search-card-container {
+        padding: 1.5rem 1.2rem;
+        border-radius: 16px;
+    }
+
+    .form-grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-options {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .pay-chip {
+        width: 100%;
+    }
+
+    .checkout-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .checkout-bar .btn {
+        width: 100%;
+    }
+
+    .fleet-cards-grid, .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .ticket-modal-card {
+        width: 94vw;
+        max-height: 90vh;
+        padding: 1.2rem;
+        overflow-y: auto;
+    }
+
+    .ticket-flex {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
