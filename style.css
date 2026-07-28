@@ -644,8 +644,186 @@ footer {
   font-size: 0.9rem;
 }
 
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM (Mobile, Tablet, Laptop, 4K Displays)
+   ========================================================================== */
+
+.nav-toggle-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--card-border);
+  color: #fff;
+  font-size: 1.25rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: var(--transition);
+}
+
+.nav-toggle-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Laptops & Desktop Displays (993px and above) */
+@media (min-width: 993px) {
+  .quick-booking-card {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) auto;
+    align-items: end;
+    gap: 1.25rem;
+  }
+}
+
+/* Tablets & Small Laptops (769px to 992px) */
+@media (max-width: 992px) {
+  .navbar {
+    padding: 1rem 2rem;
+  }
+  
+  .hero-section {
+    padding: 6rem 1.5rem 4rem;
+  }
+  
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 3rem);
+  }
+  
+  .quick-booking-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  
+  .showcase-3d-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Smartphones & Mobile Devices (768px and below) */
 @media (max-width: 768px) {
-  .navbar { padding: 1rem 1.5rem; }
-  .hero-title { font-size: 2.5rem; }
-  .quick-booking-card { grid-template-columns: 1fr; }
+  .nav-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar {
+    padding: 0.9rem 1.25rem;
+    position: sticky;
+    top: 0;
+    background: rgba(11, 19, 43, 0.96);
+    backdrop-filter: blur(16px);
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(11, 19, 43, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1rem;
+    border-bottom: 1px solid var(--card-border);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  .nav-links.active {
+    display: flex !important;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-section {
+    padding: 5rem 1rem 3rem;
+  }
+
+  .hero-content {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+  }
+
+  .hero-title {
+    font-size: 1.95rem;
+    line-height: 1.3;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .quick-booking-container {
+    padding: 0 1rem;
+    margin-top: -2rem;
+  }
+
+  .quick-booking-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .showcase-3d-grid, .fleet-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem;
+  }
+
+  .modal-card, .booking-modal-card, .ticket-modal-card {
+    width: 95vw !important;
+    max-height: 90vh !important;
+    padding: 1.25rem !important;
+    overflow-y: auto;
+  }
+
+  .ticket-qr img {
+    width: 140px;
+    height: 140px;
+  }
+
+  footer {
+    padding: 2.5rem 1.25rem 1.5rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+}
+
+/* Extra Small Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .brand {
+    font-size: 1.2rem;
+  }
+
+  .view-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+  }
 }

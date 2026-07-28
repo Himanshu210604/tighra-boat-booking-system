@@ -13,6 +13,20 @@ document.addEventListener("DOMContentLoaded", () => {
   init3DParallax();
 });
 
+function toggleMobileNav() {
+  const navMenu = document.getElementById("navLinksMenu");
+  if (navMenu) {
+    navMenu.classList.toggle("active");
+  }
+}
+
+function closeMobileNav() {
+  const navMenu = document.getElementById("navLinksMenu");
+  if (navMenu) {
+    navMenu.classList.remove("active");
+  }
+}
+
 function initDateInput() {
   const today = new Date().toISOString().split("T")[0];
   const dateInput = document.getElementById("book-date");

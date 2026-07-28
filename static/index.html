@@ -15,17 +15,20 @@
     <a href="/" class="brand">
       <span class="brand-icon">⚓</span> Tighra<span class="highlight">Boats</span>
     </a>
-    <ul class="nav-links">
-      <li><a href="#" class="nav-link active" onclick="switchTab('fleet')">Fleet & Rides</a></li>
-      <li id="my-tickets-nav" style="display: none;"><a href="#" class="nav-link" onclick="switchTab('tickets')">My Tickets</a></li>
-      <li><a href="#showcase-3d" class="nav-link">3D Live Dam View</a></li>
-      <li><a href="#features" class="nav-link">Features</a></li>
-      <li><a href="#visitor-info" class="nav-link">Guidelines</a></li>
+    <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <ul class="nav-links" id="navLinksMenu">
+      <li><a href="#" class="nav-link active" onclick="switchTab('fleet'); closeMobileNav();">Fleet & Rides</a></li>
+      <li id="my-tickets-nav" style="display: none;"><a href="#" class="nav-link" onclick="switchTab('tickets'); closeMobileNav();">My Tickets</a></li>
+      <li><a href="#showcase-3d" class="nav-link" onclick="closeMobileNav();">3D Live Dam View</a></li>
+      <li><a href="#features" class="nav-link" onclick="closeMobileNav();">Features</a></li>
+      <li><a href="#visitor-info" class="nav-link" onclick="closeMobileNav();">Guidelines</a></li>
       <li><a href="/operator" class="nav-link" target="_blank"><i class="fa-solid fa-qrcode"></i> Gate Scanner</a></li>
       <li><a href="/admin" class="nav-link" target="_blank"><i class="fa-solid fa-chart-line"></i> Admin Console</a></li>
       <li id="auth-buttons">
-        <a href="/login" class="btn btn-outline">Login</a>
-        <a href="/register" class="btn btn-primary">Register</a>
+        <a href="/login" class="btn btn-outline" onclick="closeMobileNav();">Login</a>
+        <a href="/register" class="btn btn-primary" onclick="closeMobileNav();">Register</a>
       </li>
       <li id="user-profile" style="display: none;">
         <span id="user-display-name" style="font-weight: 700; color: var(--primary); margin-right: 0.5rem;"></span>
