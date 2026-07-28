@@ -52,12 +52,14 @@ app.include_router(admin_router, prefix="/api")
 
 # Directory paths
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+api_dir = os.path.join(base_dir, "api")
 frontend_dir = os.path.join(base_dir, "frontend")
 static_dir = os.path.join(base_dir, "static")
 
 # Mount Assets & Static Folders
-if os.path.exists(os.path.join(frontend_dir, "assets")):
-    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dir, "assets")), name="assets")
+assets_dir = os.path.join(api_dir, "assets") if os.path.exists(os.path.join(api_dir, "assets")) else os.path.join(frontend_dir, "assets")
+if os.path.exists(assets_dir):
+    app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
@@ -70,23 +72,24 @@ if os.path.exists(os.path.join(static_dir, "js")):
 
 @app.get("/style.css")
 def get_style_css():
-    css_path = os.path.join(frontend_dir, "style.css")
-    if os.path.exists(css_path):
-        return FileResponse(css_path, media_type="text/css")
+    for p in [os.path.join(api_dir, "style.css"), os.path.join(frontend_dir, "style.css"), os.path.join(static_dir, "css", "style.css")]:
+        if os.path.exists(p):
+            return FileResponse(p, media_type="text/css")
     return FileResponse(os.path.join(static_dir, "css", "style.css"), media_type="text/css")
 
 @app.get("/app.js")
 def get_app_js():
-    js_path = os.path.join(frontend_dir, "app.js")
-    if os.path.exists(js_path):
-        return FileResponse(js_path, media_type="application/javascript")
+    for p in [os.path.join(api_dir, "app.js"), os.path.join(frontend_dir, "app.js"), os.path.join(static_dir, "js", "app.js")]:
+        if os.path.exists(p):
+            return FileResponse(p, media_type="application/javascript")
     return FileResponse(os.path.join(static_dir, "js", "app.js"), media_type="application/javascript")
 
 @app.get("/")
 def read_root():
-    if os.path.exists(os.path.join(frontend_dir, "index.html")):
-        return FileResponse(os.path.join(frontend_dir, "index.html"))
-    return FileResponse(os.path.join(static_dir, "index.html"))
+    for p in [os.path.join(frontend_dir, "index.html"), os.path.join(static_dir, "index.html")]:
+        if os.path.exists(p):
+            return FileResponse(p)
+    return {"message": "Tighra Smart Boat Booking System API Online"}
 
 @app.get("/login")
 def read_login():
