@@ -2,6 +2,8 @@
 
 A web-based boat ticket booking system built for Tighra Dam. It allows visitors to book boat rides online and generates digital QR code tickets for instant ticket verification.
 
+🌐 **Live Website**: [https://tighra-boat-booking-system.vercel.app](https://tighra-boat-booking-system.vercel.app)
+
 ## Features
 
 - **Online Booking**: Book tickets for Speed Boats, Motor Boats, Paddle Boats, and Water Scooters.
@@ -9,6 +11,12 @@ A web-based boat ticket booking system built for Tighra Dam. It allows visitors 
 - **Admin Dashboard**: Manage boat availability, track ticket bookings, and check revenue reports.
 - **Operator Portal**: Dock staff can scan passenger QR codes to verify tickets.
 - **User Accounts**: User registration and login for managing bookings.
+
+## Live Application
+
+The live application is deployed on Vercel:
+- **Web App**: [https://tighra-boat-booking-system.vercel.app](https://tighra-boat-booking-system.vercel.app)
+- **API Documentation**: [https://tighra-boat-booking-system.vercel.app/docs](https://tighra-boat-booking-system.vercel.app/docs)
 
 ## Tech Stack
 
@@ -34,8 +42,9 @@ A web-based boat ticket booking system built for Tighra Dam. It allows visitors 
    python run.py
    ```
 
-4. Open your browser and go to `http://127.0.0.1:8000`.
+4. Open your browser and go to [https://tighra-boat-booking-system.vercel.app](https://tighra-boat-booking-system.vercel.app) (Live) or `http://127.0.0.1:8000` (Local).
 
 ## API Documentation
 
-Interactive API documentation is available at `http://127.0.0.1:8000/docs` when the server is running.
+Interactive API documentation is available live at [https://tighra-boat-booking-system.vercel.app/docs](https://tighra-boat-booking-system.vercel.app/docs) or locally at `http://127.0.0.1:8000/docs` when the server is running.
+
