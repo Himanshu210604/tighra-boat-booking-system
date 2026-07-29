@@ -4,25 +4,6 @@ A web-based boat ticket booking system built for Tighra Dam. It allows visitors 
 
 🌐 **Live Website**: [https://tighra-boat-booking-system.vercel.app/](https://tighra-boat-booking-system.vercel.app/)
 
----
-
-## 👨‍💻 Meet the Creator
-
-<div align="center">
-  <img src="static/images/himanshu_rathore.jpg" alt="Himanshu Rathore - Creator & Architect" width="200" style="border-radius: 16px; margin-bottom: 12px;" />
-  <h3>Himanshu Rathore</h3>
-  <p><b>Full-Stack Creator & Architect</b></p>
-</div>
-
-Designed, developed, and deployed by **Himanshu Rathore** to modernize tourism ticket bookings at Tighra Dam, Gwalior. Built with a vision for seamless digital experiences, Himanshu created this full-stack platform featuring real-time seat availability, instant QR code ticket generation, gate-operator verification, and automated revenue dashboards.
-
-- 🌐 **Live Deployed App**: [https://tighra-boat-booking-system.vercel.app/](https://tighra-boat-booking-system.vercel.app/)
-- 📧 **Contact Email**: [himanshurathore2106@gmail.com](mailto:himanshurathore2106@gmail.com)
-- 📍 **Location**: Gwalior, Madhya Pradesh, India
-- 💡 **Vision**: Smart Digital & Cashless Boating Infrastructure
-
----
-
 ## Features
 
 - **Online Booking**: Book tickets for Speed Boats, Motor Boats, Paddle Boats, and Water Scooters.
